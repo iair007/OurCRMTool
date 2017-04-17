@@ -465,6 +465,7 @@
             this.chkIsTargetOnline.TabIndex = 30;
             this.chkIsTargetOnline.Text = "Is Online";
             this.chkIsTargetOnline.UseVisualStyleBackColor = true;
+            this.chkIsTargetOnline.CheckedChanged += new System.EventHandler(this.chkIsTargetOnline_CheckedChanged);
             // 
             // label9
             // 
@@ -482,7 +483,6 @@
             this.txtTargetDom.Name = "txtTargetDom";
             this.txtTargetDom.Size = new System.Drawing.Size(172, 20);
             this.txtTargetDom.TabIndex = 22;
-            this.txtTargetDom.Text = "xnes";
             // 
             // label10
             // 
@@ -534,7 +534,6 @@
             this.txtTarget.Name = "txtTarget";
             this.txtTarget.Size = new System.Drawing.Size(680, 20);
             this.txtTarget.TabIndex = 10;
-            this.txtTarget.Text = "https://qacrm11plt/Xnes/main.aspx";
             // 
             // txtTargetUserName
             // 
@@ -571,6 +570,7 @@
             this.chkIsSourceOnline.TabIndex = 29;
             this.chkIsSourceOnline.Text = "Is Online";
             this.chkIsSourceOnline.UseVisualStyleBackColor = true;
+            this.chkIsSourceOnline.CheckedChanged += new System.EventHandler(this.chkIsSourceOnline_CheckedChanged);
             // 
             // label7
             // 
@@ -588,7 +588,6 @@
             this.txtSourceDom.Name = "txtSourceDom";
             this.txtSourceDom.Size = new System.Drawing.Size(172, 20);
             this.txtSourceDom.TabIndex = 22;
-            this.txtSourceDom.Text = "xnes";
             // 
             // label6
             // 
@@ -605,7 +604,6 @@
             this.txtSource.Name = "txtSource";
             this.txtSource.Size = new System.Drawing.Size(680, 20);
             this.txtSource.TabIndex = 9;
-            this.txtSource.Text = "https://devcrm11srv/Xnes/main.aspx";
             // 
             // label5
             // 

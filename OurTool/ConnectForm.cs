@@ -49,7 +49,7 @@ namespace OurCRMTool
                 {
                     if (File.Exists(ConnectionConfigPath))
                     {
-                        _connectionConfig = File.ReadAllText(ConnectionConfigPath).Replace("\r\n","").Split(',');
+                        _connectionConfig = File.ReadAllText(ConnectionConfigPath).Replace("\r\n", "").Split(',');
                     }
                     else
                     {
@@ -63,6 +63,9 @@ namespace OurCRMTool
         public ConnectForm()
         {
             InitializeComponent();
+            log4net.Config.XmlConfigurator.Configure();
+            log.Error("test");
+            log.Info("info");
             if (ConnectionConfig != null)
             {
                 string url = GetConfigParameter("Url");
@@ -81,18 +84,55 @@ namespace OurCRMTool
                     txtUserName.Text = username;
                 }
                 string isOnline = GetConfigParameter("IsOnline").ToLower();
-                if(isOnline != string.Empty && isOnline != "false"){
+                if (isOnline != string.Empty && isOnline != "false")
+                {
                     chkOnline.Checked = true;
                 }
-            }
-            log4net.Config.XmlConfigurator.Configure();
 
-            //txtSource.Text = ConfigurationManager.AppSettings["URI_Dev"];
-            //txtSourceDom.Text = ConfigurationManager.AppSettings["Domain_Dev"];
-            //txtSourceUserName.Text = ConfigurationManager.AppSettings["Username_Dev"];
-            //txtTarget.Text = ConfigurationManager.AppSettings["URI_QA"];
-            //txtTargetDom.Text = ConfigurationManager.AppSettings["Domain_QA"];
-            //txtTargetUserName.Text = ConfigurationManager.AppSettings["Username_QA"];
+                string uRI_source = GetConfigParameter("URI_source");
+                if (uRI_source != string.Empty)
+                {
+                    txtSource.Text = uRI_source;
+                }
+                string domain_source = GetConfigParameter("Domain_source");
+                if (domain_source != string.Empty)
+                {
+                    txtSourceDom.Text = domain_source;
+                }
+                string username_source = GetConfigParameter("Username_source");
+                if (username_source != string.Empty)
+                {
+                    txtSourceUserName.Text = username_source;
+                }
+                string isSourceOnline = GetConfigParameter("IsSourceOnline").ToLower();
+                if (isSourceOnline != string.Empty && isSourceOnline != "false")
+                {
+                    chkIsSourceOnline.Checked = true;
+                }
+
+
+                string uRI_target = GetConfigParameter("URI_target");
+                if (uRI_target != string.Empty)
+                {
+                    txtTarget.Text = uRI_target;
+                }
+                string domain_target = GetConfigParameter("Domain_target");
+                if (domain_target != string.Empty)
+                {
+                    txtTargetDom.Text = domain_target;
+                }
+                string username_target = GetConfigParameter("Username_target");
+                if (username_target != string.Empty)
+                {
+                    txtTargetUserName.Text = username_target;
+                }
+                string isTargetOnline = GetConfigParameter("IsTargetOnline").ToLower();
+                if (isTargetOnline != string.Empty && isTargetOnline != "false")
+                {
+                    chkIsSourceOnline.Checked = true;
+                }
+
+            }
         }
 
         private void butConnect_Click(object sender, EventArgs e)
@@ -107,7 +147,6 @@ namespace OurCRMTool
                     string url = SetCRMUrl(txtUrl.Text, chkOnline.Checked);
                     if (url != string.Empty)
                     {
-                        log.Info("URL: " + url);
                         bl = new BL(url, txtDom.Text, txtUserName.Text, txtPass.Text, log);
                         if (bl.service != null)
                         {
@@ -118,11 +157,14 @@ namespace OurCRMTool
                             MessageBox.Show("Could not connect to the service");
                         }
                         Cursor.Current = Cursors.Default;
-                        
+
                     }
                     else {
                         MessageBox.Show("Invalid URL");
-                        updateConfigParameter("Url", "");
+                        if (GetConfigParameter("Url") != txtUrl.Text)
+                        {
+                            updateConfigParameter("Url", "");
+                        }
                     }
                 }
                 else
@@ -170,21 +212,59 @@ namespace OurCRMTool
             {
                 if (ConnectionConfig != null)
                 {
-                    if (GetConfigParameter("Url") != txtUrl.Text)
+                    //one connection
+                    if (txtUrl.Text != string.Empty && GetConfigParameter("Url") != txtUrl.Text)
                     {
                         updateConfigParameter("Url", txtUrl.Text);
                     }
-                    if (GetConfigParameter("Domain") != txtDom.Text)
+                    if (txtDom.Text != string.Empty && GetConfigParameter("Domain") != txtDom.Text)
                     {
                         updateConfigParameter("Domain", txtDom.Text);
                     }
-                    if (GetConfigParameter("Username") != txtUserName.Text)
+                    if (txtDom.Text != string.Empty && GetConfigParameter("Username") != txtUserName.Text)
                     {
                         updateConfigParameter("Username", txtUserName.Text);
                     }
                     if (GetConfigParameter("IsOnline").ToLower() != chkOnline.Checked.ToString().ToLower())
                     {
                         updateConfigParameter("IsOnline", chkOnline.Checked.ToString());
+                    }
+
+                    //Source
+                    if (txtSource.Text != string.Empty && GetConfigParameter("URI_source") != txtSource.Text)
+                    {
+                        updateConfigParameter("URI_source", txtSource.Text);
+                    }
+                    if (txtSourceDom.Text != string.Empty && GetConfigParameter("Domain_source") != txtSourceDom.Text)
+                    {
+                        updateConfigParameter("Domain_source", txtSourceDom.Text);
+                    }
+                    if (txtSourceUserName.Text != string.Empty && GetConfigParameter("Username_source") != txtSourceUserName.Text)
+                    {
+                        updateConfigParameter("Username_source", txtSourceUserName.Text);
+                    }
+                    if (GetConfigParameter("IsSourceOnline").ToLower() != chkIsSourceOnline.Checked.ToString().ToLower())
+                    {
+                        updateConfigParameter("IsSourceOnline", chkIsSourceOnline.Checked.ToString());
+                    }
+
+
+                    //Target
+                    if (txtTarget.Text != string.Empty && GetConfigParameter("URI_target") != txtTarget.Text)
+                    {
+                        updateConfigParameter("URI_target", txtTarget.Text);
+                    }
+                    if (txtTargetDom.Text != string.Empty && GetConfigParameter("Domain_target") != txtTargetDom.Text)
+                    {
+                        updateConfigParameter("Domain_target", txtTargetDom.Text);
+                    }
+                    if (txtTargetUserName.Text != string.Empty && GetConfigParameter("Username_target") != txtTargetUserName.Text)
+                    {
+                        updateConfigParameter("Username_target", txtTargetUserName.Text);
+                    }
+                    if (GetConfigParameter("IsTargetOnline").ToLower() != chkIsTargetOnline.Checked.ToString().ToLower())
+                    {
+                        updateConfigParameter("IsTargetOnline", chkIsTargetOnline.Checked.ToString());
                     }
 
                 }
@@ -195,7 +275,7 @@ namespace OurCRMTool
                 log.Error(ex.Message);
             }
         }
-       
+
         private string SetCRMUrl(string _url, bool isOnline)
         {
             string url = string.Empty;
@@ -326,16 +406,7 @@ namespace OurCRMTool
             }
 
             Cursor.Current = Cursors.WaitCursor;
-            Configuration MyConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            MyConfig.AppSettings.Settings["URI_Dev"].Value = txtSource.Text;
-            MyConfig.AppSettings.Settings["Domain_Dev"].Value = txtSourceDom.Text;
-            MyConfig.AppSettings.Settings["Username_Dev"].Value = txtSourceUserName.Text;
-            MyConfig.AppSettings.Settings["URI_QA"].Value = txtTarget.Text;
-            MyConfig.AppSettings.Settings["Domain_QA"].Value = txtTargetDom.Text;
-            MyConfig.AppSettings.Settings["Username_QA"].Value = txtTargetUserName.Text;
-            MyConfig.Save(ConfigurationSaveMode.Modified);
-            ConfigurationManager.RefreshSection("appSettings");
-
+            updateConfigData();
 
             CRMHelpper crmHelper = new CRMHelpper(log);
             try
@@ -348,6 +419,12 @@ namespace OurCRMTool
                 else if (enviroment1Url != string.Empty)
                 {
                     service1 = crmHelper.GetCRMService(enviroment1Url, txtSourceDom.Text, txtSourceUserName.Text, txtSourcePass.Text);
+                }
+                if (enviroment1Url == string.Empty || service1 == null)
+                {
+                    MessageBox.Show("Cannot connect to the source CRM");
+                    Cursor.Current = Cursors.Default;
+                    return;
                 }
             }
             catch (Exception s)
@@ -366,6 +443,12 @@ namespace OurCRMTool
                 else if (enviroment2Url != string.Empty)
                 {
                     service2 = crmHelper.GetCRMService(enviroment2Url, txtTargetDom.Text, txtTargetUserName.Text, txtTargetPass.Text);
+                }
+                if (enviroment2Url == string.Empty || service2 == null)
+                {
+                    MessageBox.Show("Cannot connect to the target CRM");
+                    Cursor.Current = Cursors.Default;
+                    return;
                 }
             }
             catch (Exception s)
@@ -419,6 +502,18 @@ namespace OurCRMTool
             }
             return isValid;
         }
+
+        private void chkIsSourceOnline_CheckedChanged(object sender, EventArgs e)
+        {
+            txtSourceDom.Text = string.Empty;
+            txtSourceDom.Enabled = !(sender as CheckBox).Checked;
+        }
+        private void chkIsTargetOnline_CheckedChanged(object sender, EventArgs e)
+        {
+            txtTargetDom.Text = string.Empty;
+            txtTargetDom.Enabled = !(sender as CheckBox).Checked;
+        }
+
         #endregion
 
         private void butCompareRecordsInEnviroments_Click(object sender, EventArgs e)
@@ -438,5 +533,6 @@ namespace OurCRMTool
             SerurityRoleAnalizerByUser form = new SerurityRoleAnalizerByUser(bl, log);
             form.ShowDialog();
         }
+
     }
 }
