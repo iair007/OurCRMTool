@@ -222,7 +222,7 @@
             // 
             this.butChangeRecordStatus.BackColor = System.Drawing.SystemColors.Control;
             this.butChangeRecordStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
-            this.butChangeRecordStatus.Location = new System.Drawing.Point(7, 72);
+            this.butChangeRecordStatus.Location = new System.Drawing.Point(7, 43);
             this.butChangeRecordStatus.Name = "butChangeRecordStatus";
             this.butChangeRecordStatus.Size = new System.Drawing.Size(195, 23);
             this.butChangeRecordStatus.TabIndex = 65;
@@ -234,12 +234,13 @@
             // 
             this.buChangeAttendees.BackColor = System.Drawing.SystemColors.Control;
             this.buChangeAttendees.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
-            this.buChangeAttendees.Location = new System.Drawing.Point(7, 43);
+            this.buChangeAttendees.Location = new System.Drawing.Point(7, 72);
             this.buChangeAttendees.Name = "buChangeAttendees";
             this.buChangeAttendees.Size = new System.Drawing.Size(195, 23);
             this.buChangeAttendees.TabIndex = 64;
             this.buChangeAttendees.Text = "Appointment Change Attendees";
             this.buChangeAttendees.UseVisualStyleBackColor = false;
+            this.buChangeAttendees.Visible = false;
             this.buChangeAttendees.Click += new System.EventHandler(this.buChangeAttendees_Click);
             // 
             // butResetDef
