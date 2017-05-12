@@ -108,7 +108,7 @@ namespace OurCRMTool
             }
             catch (Exception ex)
             {
-                log.Error("UsersSettingsUpdate.SetTeams: " + ex.Message);
+                log.Error("UsersSettingsUpdate.SetTeams:" + ex.Message);
             }
         }
 
@@ -185,7 +185,7 @@ namespace OurCRMTool
             }
             catch (Exception ex)
             {
-                log.Error("UsersSettingsUpdate.UpdateUsersGrid: " + ex.Message);
+                log.Error("UsersSettingsUpdate.UpdateUsersGrid: " + ex);
             }
         }
 
@@ -203,7 +203,7 @@ namespace OurCRMTool
             }
             catch (Exception ex)
             {
-                log.Error("UsersSettingsUpdate.gridUsers_CellClick: "+ ex.Message);
+                log.Error("UsersSettingsUpdate.gridUsers_CellClick: " + ex);
             }
         }
 
@@ -359,7 +359,7 @@ namespace OurCRMTool
             }
             catch (Exception ex)
             {
-                log.Error("SerurityRoleAnalizerByUser.butOpenUser_Click: "+ ex.Message);
+                log.Error("SerurityRoleAnalizerByUser.butOpenUser_Click: " + ex);
             }
         }
 
@@ -385,7 +385,8 @@ namespace OurCRMTool
             }
             catch (Exception ex)
             {
-                log.Error("SerurityRoleAnalizerByUser.butOpenTeam_Click: "+ ex.Message);
+                log.Error("SerurityRoleAnalizerByUser.butOpenTeam_Click: " + ex);
+                throw ex;
             }
         }
 

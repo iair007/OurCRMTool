@@ -11,7 +11,7 @@ namespace OurCRMTool
     public partial class SecurityRolesCompare2 : Form
     {
         #region CONS/VAR
-        
+
         private BL bl;
         string FIRST_CUSTOM = "fistCustom";  //to create/identified columns of first selected role for customer entities
         string SECOND_CUSTOM = "secondCustom"; //to create/identified columns of second selected role for customer entities
@@ -49,6 +49,25 @@ namespace OurCRMTool
             Cursor.Current = Cursors.Default;
         }
 
+        public SecurityRolesCompare2(BL _bl, Guid _firstRole, string firstRoleName, Guid _secondRole, string secondRoleName)
+        {
+            InitializeComponent();
+            Cursor.Current = Cursors.WaitCursor;
+            bl = _bl;
+            firstRoleId = _firstRole;
+            secondRoleId = _secondRole;
+            this.Text = "Security Roles Analizer - Connected to: " + bl.url;
+            lbFirstSystemRole.Text = "Role: " + firstRoleName;
+            panel1.Text = "Role: " + firstRoleName;
+            lbFirstGlobal.Text = "Role: " + firstRoleName;
+            lbFirstCustomRole.Text = "Role: " + firstRoleName;
+            lbSecondSystemRole.Text = "Role: " + secondRoleName;
+            lbSecondCustomRole.Text = "Role: " + secondRoleName;
+            lbSecondGlobal.Text = "Role: " + secondRoleName;
+
+            SetGrids();
+            Cursor.Current = Cursors.Default;
+        }
         #endregion
 
         #region Tables

@@ -211,6 +211,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.5"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.5 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.5"
+                    }
+                }
+            }
         }
         "Release"
         {
@@ -227,6 +243,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.5"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.5 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.5"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -303,11 +335,6 @@
             "AssemblyAsmDisplayName" = "8:Microsoft.Crm.Sdk.Proxy, Version=8.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_32C597328755D072285D7BB5578147EB"
-                    {
-                    "Name" = "8:Microsoft.Crm.Sdk.Proxy.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Microsoft.Crm.Sdk.Proxy.dll"
             "TargetName" = "8:"
@@ -394,11 +421,6 @@
             "AssemblyAsmDisplayName" = "8:Microsoft.Xrm.Sdk, Version=8.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_97AD1A52AC180643010868E295907728"
-                    {
-                    "Name" = "8:Microsoft.Xrm.Sdk.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Microsoft.Xrm.Sdk.dll"
             "TargetName" = "8:"
@@ -505,11 +527,6 @@
             "AssemblyAsmDisplayName" = "8:Microsoft.Xrm.Client, Version=5.0.9689.2166, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_C239C13DE6641974BB793FDD508C738C"
-                    {
-                    "Name" = "8:Microsoft.Xrm.Client.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Microsoft.Xrm.Client.dll"
             "TargetName" = "8:"
@@ -536,11 +553,6 @@
             "AssemblyAsmDisplayName" = "8:log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_C3A505E116574C20EB80D3B09A298B3F"
-                    {
-                    "Name" = "8:log4net.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:log4net.dll"
             "TargetName" = "8:"
@@ -667,11 +679,6 @@
             "AssemblyAsmDisplayName" = "8:Microsoft.Xrm.Tooling.Connector, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_F83CA1C38AD816B3BDB2251396F44119"
-                    {
-                    "Name" = "8:Microsoft.Xrm.Tooling.Connector.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Microsoft.Xrm.Tooling.Connector.dll"
             "TargetName" = "8:"
@@ -769,15 +776,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:OurCRMTool"
-        "ProductCode" = "8:{70CBE07D-0DE4-4B2E-991F-D1A6B0EFF247}"
-        "PackageCode" = "8:{7CE3CAAC-F445-44DD-8250-4079A6E8F8F4}"
+        "ProductCode" = "8:{67C57B5A-5704-4403-B96E-46C6A5C65023}"
+        "PackageCode" = "8:{E88642F6-5241-484A-B8B6-56C1F0855AFE}"
         "UpgradeCode" = "8:{029891C3-15E9-48FA-9D05-9C3CCE530D6F}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.10"
+        "ProductVersion" = "8:2.0.0"
         "Manufacturer" = "8:OurCRMTool"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"

@@ -313,6 +313,20 @@ namespace OurCRMTool
             return collection;
         }
 
+        public EntityCollection GetTeamsByUser(Guid userId)
+        {
+            QueryExpression teamQuery = new QueryExpression("teammembership");
+            teamQuery.Criteria.AddCondition("systemuserid", ConditionOperator.Equal, userId);
+
+            LinkEntity linkTeam = new LinkEntity("teammembership", "team", "teamid", "teamid", JoinOperator.Inner);
+            linkTeam.EntityAlias = "team";
+            linkTeam.Columns = new ColumnSet("name", "teamid");
+
+            teamQuery.LinkEntities.Add(linkTeam);
+
+            return service.RetrieveMultiple(teamQuery);
+        }
+
         #endregion
 
         #region Entity
@@ -599,18 +613,45 @@ namespace OurCRMTool
         public EntityCollection GetRolesByUserId(EntityReference userTeamRef)
         {
             QueryExpression queryRole = new QueryExpression("role");
-            queryRole.Criteria.AddCondition(new ConditionExpression("parentroleid", ConditionOperator.Null));
-            queryRole.ColumnSet = new ColumnSet("name", "roleid", "businessunitid", "createdon", "createdby");
+            //queryRole.Criteria.AddCondition(new ConditionExpression("parentroleid", ConditionOperator.Null));
+            queryRole.ColumnSet = new ColumnSet("name", "roleid", "parentroleid", "businessunitid", "createdon", "createdby");
             queryRole.Orders.Add(new OrderExpression("name", OrderType.Ascending));
 
             LinkEntity linkUserOrTeam = new LinkEntity("role", userTeamRef.LogicalName + "roles", "roleid", "roleid", JoinOperator.Inner);
-            linkUserOrTeam.Columns = new ColumnSet("name");    //role's name
-            linkUserOrTeam.EntityAlias = "role";
-            linkUserOrTeam.LinkCriteria.AddCondition(new ConditionExpression(userTeamRef.LogicalName, ConditionOperator.Equal, userTeamRef.Id));
+            linkUserOrTeam.EntityAlias = "userOrTeamRoles";
+            linkUserOrTeam.LinkCriteria.AddCondition(new ConditionExpression(userTeamRef.LogicalName + "id", ConditionOperator.Equal, userTeamRef.Id));
 
             queryRole.LinkEntities.Add(linkUserOrTeam);
 
-            return service.RetrieveMultiple(queryRole);
+            EntityCollection userRoles = service.RetrieveMultiple(queryRole);
+
+            return GetParentsRoles(userRoles);
+        }
+
+        private EntityCollection GetParentsRoles(EntityCollection rolesCol)
+        {
+            EntityCollection parentRoles = new EntityCollection();
+            if (rolesCol.Entities.Count() > 0)
+            {
+                QueryExpression query = new QueryExpression("role");
+                query.ColumnSet = new ColumnSet("name", "roleid", "parentroleid", "businessunitid", "createdon", "createdby");
+                query.Criteria.AddCondition(new ConditionExpression("parentroleid", ConditionOperator.Null));
+
+                FilterExpression filterOr = new FilterExpression(LogicalOperator.Or);
+                foreach (Entity r in rolesCol.Entities)
+                {
+                    if (r.Contains("name"))
+                    {
+                        filterOr.AddCondition(new ConditionExpression("name", ConditionOperator.Equal, r.GetAttributeValue<string>("name")));
+                    }
+                }
+                if (filterOr.Conditions.Count() > 0)
+                {
+                    query.Criteria.AddFilter(filterOr);
+                }
+                parentRoles = service.RetrieveMultiple(query);
+            }
+            return parentRoles;
         }
 
         public void OpenRole(string roleId)
@@ -984,6 +1025,13 @@ namespace OurCRMTool
                     break;
             }
             return ImgToRet;
+        }
+
+        public int GetDepthByImage(string imageTag)
+        {
+            int depth;
+            int.TryParse(imageTag, out depth);
+            return depth;
         }
 
         public Entity GetOrganizationSettings()

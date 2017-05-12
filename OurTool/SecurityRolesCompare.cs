@@ -6,6 +6,7 @@ using Microsoft.Xrm.Sdk.Messages;
 using Microsoft.Xrm.Sdk.Metadata;
 using Microsoft.Xrm.Sdk;
 using System.ComponentModel;
+using System.Threading;
 
 namespace OurCRMTool
 {
@@ -36,7 +37,7 @@ namespace OurCRMTool
 
         #region Contructor
 
-        public SecurityRolesCompare(BL _bl, log4net.ILog _log, Guid? selectedRole = null)
+        public SecurityRolesCompare(BL _bl, log4net.ILog _log, Guid? selectedRole1 = null,string selectedRole1Name = null, Guid? selectedRole2 = null, string selectedRole2Name = null)
         {
             InitializeComponent();
             Cursor.Current = Cursors.WaitCursor;
@@ -59,7 +60,19 @@ namespace OurCRMTool
 
             worker.RunWorkerAsync();
 
-            SetRoleGrid(selectedRole);
+            SetRoleGrid(selectedRole1, selectedRole2);
+
+            if (selectedRole1 != null && selectedRole2 != null)
+            {
+                txtRoleSearch.Focus();
+                txtRoleSearch.Text = selectedRole1Name;
+
+                txtRole2Search.Focus();
+                txtRole2Search.Text = selectedRole2Name;
+
+                scrollGrid(gridRoles, "RoleName" + FIRST_ROLE, selectedRole1Name);
+                scrollGrid(gridRoles2, "RoleName" + SECOND_ROLE, selectedRole2Name);
+            }
             Cursor.Current = Cursors.Default;
         }
 
@@ -117,7 +130,7 @@ namespace OurCRMTool
 
         #region Roles
 
-        private void SetRoleGrid(Guid? selectedRole = null)
+        private void SetRoleGrid(Guid? selectedRole1 = null, Guid? selectedRole2 = null)
         {
             dtRoles.Rows.Clear();
             dtRoles2.Rows.Clear();
@@ -128,8 +141,8 @@ namespace OurCRMTool
 
             foreach (Entity role in rolesCol.Entities)
             {
-                dtRoles.Rows.Add(selectedRole != null && selectedRole == role.Id, role.GetAttributeValue<string>("name"), role.Id);
-                dtRoles2.Rows.Add(selectedRole != null && selectedRole == role.Id, role.GetAttributeValue<string>("name"), role.Id);
+                dtRoles.Rows.Add(selectedRole1 != null && selectedRole1 == role.Id, role.GetAttributeValue<string>("name"), role.Id);
+                dtRoles2.Rows.Add(selectedRole2 != null && selectedRole2 == role.Id, role.GetAttributeValue<string>("name"), role.Id);
             }
             gridRoles.DataSource = dtRoles;
             gridRoles2.DataSource = dtRoles2;
@@ -221,29 +234,24 @@ namespace OurCRMTool
 
         private void txtRoleSearch_TextChanged(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow row in gridRoles.Rows)
+            scrollGrid(gridRoles, "RoleName" + FIRST_ROLE, txtRoleSearch.Text);
+            txtRoleSearch.Focus();
+        }
+        private void scrollGrid(DataGridView grid,string cellName ,string textToFind) {
+            foreach (DataGridViewRow row in grid.Rows)
             {
-                if (row.Cells["RoleName" + FIRST_ROLE].Value.ToString().ToLower().Contains(txtRoleSearch.Text.ToLower()))
+                if (row.Cells[cellName].Value.ToString().ToLower().Contains(textToFind.ToLower()))
                 {
                     row.Selected = true;
-                    gridRoles.FirstDisplayedScrollingRowIndex = row.Index;
+                    grid.FirstDisplayedScrollingRowIndex = row.Index;
                     break;
                 }
             }
-            txtRoleSearch.Focus();
         }
 
         private void txtRole2Search_TextChanged(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow row in gridRoles2.Rows)
-            {
-                if (row.Cells["RoleName" + SECOND_ROLE].Value.ToString().ToLower().Contains(txtRole2Search.Text.ToLower()))
-                {
-                    row.Selected = true;
-                    gridRoles2.FirstDisplayedScrollingRowIndex = row.Index;
-                    break;
-                }
-            }
+            scrollGrid(gridRoles2, "RoleName" + SECOND_ROLE, txtRole2Search.Text);
             txtRole2Search.Focus();
         }
         #endregion

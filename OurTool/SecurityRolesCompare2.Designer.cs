@@ -286,10 +286,10 @@
             this.tabCustomEntities.Text = "Custom Entities";
             this.tabCustomEntities.UseVisualStyleBackColor = true;
             // 
-            // txtCustomerSearch
+            // txtCustomEntitySearch
             // 
             this.txtCustomerSearch.Location = new System.Drawing.Point(71, 42);
-            this.txtCustomerSearch.Name = "txtCustomerSearch";
+            this.txtCustomerSearch.Name = "txtCustomEntitySearch";
             this.txtCustomerSearch.Size = new System.Drawing.Size(507, 20);
             this.txtCustomerSearch.TabIndex = 65;
             this.txtCustomerSearch.TextChanged += new System.EventHandler(this.txtCustomerSearch_TextChanged);
