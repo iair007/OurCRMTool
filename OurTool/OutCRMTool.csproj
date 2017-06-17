@@ -330,15 +330,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Resources\DefaultTeams.csv" />
-    <None Include="Resources\DefaultTeamsBackUp.csv" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="DLL\Microsoft.Crm.Sdk.Proxy.dll" />
     <Content Include="DLL\Microsoft.Xrm.Sdk.dll" />
     <Content Include="DLL\Microsoft.Xrm.Tooling.Connector.dll" />
     <Content Include="OurTool.ico" />
-    <Content Include="Resources\BusinessUnit.gif" />
     <Content Include="Resources\ico_security_role.gif" />
     <Content Include="Resources\None.gif" />
     <Content Include="Resources\Organization.gif" />

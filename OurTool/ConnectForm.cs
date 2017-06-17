@@ -129,7 +129,7 @@ namespace OurCRMTool
                 string isTargetOnline = GetConfigParameter("IsTargetOnline").ToLower();
                 if (isTargetOnline != string.Empty && isTargetOnline != "false")
                 {
-                    chkIsSourceOnline.Checked = true;
+                    chkIsTargetOnline.Checked = true;
                 }
 
             }
