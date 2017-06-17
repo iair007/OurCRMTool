@@ -589,6 +589,36 @@ namespace OurCRMTool
             return collection;
         }
 
+        public EntityCollection GetPrivilegeByRoleAndEntity(Guid roleId, int objectTypeCode)
+        {
+            EntityCollection collection = null;
+            QueryExpression query = new QueryExpression("privilege");
+            query.ColumnSet = new ColumnSet("accessright", "name");
+
+            LinkEntity linkObjectTypeCode = new LinkEntity("privilege", "privilegeobjecttypecodes", "privilegeid", "privilegeid", JoinOperator.Inner);
+            linkObjectTypeCode.LinkCriteria.AddCondition("objecttypecode", ConditionOperator.Equal, objectTypeCode);
+            linkObjectTypeCode.EntityAlias = "objecttypecodes";
+            linkObjectTypeCode.Columns = new ColumnSet("objecttypecode");
+
+            LinkEntity linkRolePrivileges = new LinkEntity("privilege", "roleprivileges", "privilegeid", "privilegeid", JoinOperator.Inner);
+            linkRolePrivileges.Columns = new ColumnSet("privilegedepthmask");
+            linkRolePrivileges.EntityAlias = "roleP";
+
+            LinkEntity linkRole = new LinkEntity("roleprivileges", "role", "roleid", "roleid", JoinOperator.Inner);
+            linkRole.Columns = new ColumnSet("name", "roleid", "ismanaged");    //role's name
+            linkRole.LinkCriteria.AddCondition(new ConditionExpression("roleid", ConditionOperator.Equal, roleId));
+            linkRole.EntityAlias = "role";
+
+            linkRolePrivileges.LinkEntities.Add(linkRole);
+
+            query.LinkEntities.Add(linkObjectTypeCode);
+            query.LinkEntities.Add(linkRolePrivileges);
+
+            collection = service.RetrieveMultiple(query);
+
+            return collection;
+        }
+
         /// <summary>
         /// Will get all the privilege that are not related to an entity, that are global privilege
         /// </summary>

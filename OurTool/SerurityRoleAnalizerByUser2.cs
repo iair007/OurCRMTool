@@ -20,6 +20,7 @@ namespace OurCRMTool
         string entityName;
         log4net.ILog log;
         string OPEN_ROLE_IN_CRM = "Open Role in CRM";
+        string OPERN_ANALIZE_ROLE_BY_USER_AND_ENTITY = "RolesByUserAndEntity";
         bool finishRetrievingData = false;
         EntityReference userOrTeamRef;
         public DataTable dtCustomEntities = new DataTable();
@@ -115,6 +116,10 @@ namespace OurCRMTool
             if (grid.Columns.Count > 0)
             {
                 //set Columns properties
+                grid.Columns["ObjectTypeCode" + identifier].Visible = false;
+                grid.Columns["ObjectTypeCode" + identifier].ReadOnly = true;
+                grid.Columns["ObjectTypeCode" + identifier].SortMode = DataGridViewColumnSortMode.NotSortable;
+
                 grid.Columns["LogicName" + identifier].Visible = false;
                 grid.Columns["LogicName" + identifier].ReadOnly = true;
                 grid.Columns["LogicName" + identifier].SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -155,6 +160,10 @@ namespace OurCRMTool
                 grid.Columns["Share" + identifier].Width = 40;
                 grid.Columns["Share" + identifier].HeaderText = "Share";
                 grid.Columns["Share" + identifier].ReadOnly = true;
+
+                grid.Columns["RolesByUserAndEntity" + identifier].Width = 40;
+                grid.Columns["RolesByUserAndEntity" + identifier].HeaderText = "";
+                grid.Columns["RolesByUserAndEntity" + identifier].ReadOnly = true;
             }
         }
         private void SetGridGlobalProperties(DataGridView grid, string identifier)
@@ -208,6 +217,7 @@ namespace OurCRMTool
 
         private void CreatedtdtEntitiesColumns(DataTable table, string identifier)
         {
+            table.Columns.Add("ObjectTypeCode" + identifier, typeof(string));
             table.Columns.Add("LogicName" + identifier, typeof(string));  //Entity's logical name
             table.Columns.Add("Name" + identifier, typeof(string));  //Entity's name
             table.Columns.Add("Create" + identifier, typeof(Image));
@@ -218,6 +228,8 @@ namespace OurCRMTool
             table.Columns.Add("AppendTo" + identifier, typeof(Image));
             table.Columns.Add("Assign" + identifier, typeof(Image));
             table.Columns.Add("Share" + identifier, typeof(Image));
+            table.Columns.Add("RolesByUserAndEntity" + identifier, typeof(string));
+
             table.PrimaryKey = new DataColumn[] { table.Columns["LogicName" + identifier] };
         }
         private void CreatedtdtGlobalColumns(DataTable table, string identifier)
@@ -264,8 +276,6 @@ namespace OurCRMTool
         private void SetPrivilegeGrid()
         {
             List<Guid> selectedRoles = GetSelectedRoles();
-
-            //TODO: when mouse over, show the privilege that gives that permision
 
             //EntityCollection privilegeForRoles = bl.GetPrivilege(selectedRoles);
             foreach (Guid id in selectedRoles)
@@ -395,11 +405,11 @@ namespace OurCRMTool
                     {
                         if ((bool)currentEntity.IsCustomEntity == true)
                         {
-                            dtCustomEntities.Rows.Add(currentEntity.LogicalName, currentEntity.DisplayName.UserLocalizedLabel.Label, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage);
+                            dtCustomEntities.Rows.Add(currentEntity.ObjectTypeCode, currentEntity.LogicalName, currentEntity.DisplayName.UserLocalizedLabel.Label, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, OPERN_ANALIZE_ROLE_BY_USER_AND_ENTITY);
                         }
                         else
                         {
-                            dtSystemEntities.Rows.Add(currentEntity.LogicalName, currentEntity.DisplayName.UserLocalizedLabel.Label, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage);
+                            dtSystemEntities.Rows.Add(currentEntity.ObjectTypeCode, currentEntity.LogicalName, currentEntity.DisplayName.UserLocalizedLabel.Label, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, OPERN_ANALIZE_ROLE_BY_USER_AND_ENTITY);
                         }
                     }
                 }
@@ -470,7 +480,8 @@ namespace OurCRMTool
                     if (rolesAdded.Contains(roleId))
                     {
                         DataRow row = dtRoles.Rows.Find(roleId);
-                        if (row != null) {
+                        if (row != null)
+                        {
                             row["UserTeamsNames"] = row["UserTeamsNames"].ToString() + ", " + u.GetAttributeValue<string>("name");
                             row["CommingFrom"] = "User & Team";
                             addRole = false;
@@ -514,7 +525,10 @@ namespace OurCRMTool
             {
                 r.Cells["RoleCheck"].Value = true;
             }
-            UpdatePrivilegeGrid();
+            if (chkUpdateGridOnSelect.Checked)
+            {
+                UpdatePrivilegeGrid();
+            }
         }
 
         private void gridRoles_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -726,6 +740,40 @@ namespace OurCRMTool
         private void lbUser3_Click(object sender, EventArgs e)
         {
             bl.OpenWithArguments(userOrTeamRef.Id.ToString(), userOrTeamRef.LogicalName);
+        }
+
+        private void gridSystemEntities_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                // ClearPrivilegeGrids();
+                DataGridView senderGridView = (sender as DataGridView);
+
+                if (senderGridView.CurrentCell.Value.ToString() == OPERN_ANALIZE_ROLE_BY_USER_AND_ENTITY)
+                {
+                    int objecttypcode;
+                    string entityname;
+                    if (senderGridView.Name.Contains(CUSTOM))
+                    {
+                        objecttypcode = int.Parse(senderGridView.CurrentRow.Cells["ObjectTypeCode" + CUSTOM].Value.ToString());
+                        entityname = senderGridView.CurrentRow.Cells["LogicName" + CUSTOM].Value.ToString();
+                    }
+                    else {
+                        objecttypcode = int.Parse(senderGridView.CurrentRow.Cells["ObjectTypeCode" + SYSTEM].Value.ToString());
+                        entityname = senderGridView.CurrentRow.Cells["LogicName" + SYSTEM].Value.ToString();
+                    }
+
+                    RolesByUserAndEntity f = new RolesByUserAndEntity(objecttypcode, entityname, userTeamName, GetSelectedRoles(), bl, log);
+                    f.ShowDialog();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+                //  log.HandleException(ex, 0, "SerurityRoleAnalizerByUser2.CellClick");
+            }
+
+
         }
     }
 }

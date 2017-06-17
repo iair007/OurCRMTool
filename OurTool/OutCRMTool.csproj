@@ -145,6 +145,12 @@
     <Compile Include="Error.Designer.cs">
       <DependentUpon>Error.cs</DependentUpon>
     </Compile>
+    <Compile Include="RolesByUserAndEntity.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RolesByUserAndEntity.Designer.cs">
+      <DependentUpon>RolesByUserAndEntity.cs</DependentUpon>
+    </Compile>
     <Compile Include="SerurityRoleAnalizerByUser2.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -257,6 +263,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Error.resx">
       <DependentUpon>Error.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RolesByUserAndEntity.resx">
+      <DependentUpon>RolesByUserAndEntity.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SerurityRoleAnalizerByUser2.resx">
       <DependentUpon>SerurityRoleAnalizerByUser2.cs</DependentUpon>

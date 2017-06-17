@@ -92,6 +92,7 @@
             this.gridSystemEntities.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gridSystemEntities.Size = new System.Drawing.Size(626, 394);
             this.gridSystemEntities.TabIndex = 39;
+            this.gridSystemEntities.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSystemEntities_CellClick);
             this.gridSystemEntities.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.AddToolTip);
             // 
             // label1

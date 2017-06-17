@@ -221,7 +221,7 @@ namespace OurCRMTool
                     {
                         updateConfigParameter("Domain", txtDom.Text);
                     }
-                    if (txtDom.Text != string.Empty && GetConfigParameter("Username") != txtUserName.Text)
+                    if (txtUserName.Text != string.Empty && GetConfigParameter("Username") != txtUserName.Text)
                     {
                         updateConfigParameter("Username", txtUserName.Text);
                     }
