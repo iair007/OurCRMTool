@@ -64,25 +64,19 @@
         "Entry"
         {
         "MsmKey" = "8:_97AD1A52AC180643010868E295907728"
-        "OwnerKey" = "8:_F83CA1C38AD816B3BDB2251396F44119"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_97AD1A52AC180643010868E295907728"
         "OwnerKey" = "8:_32C597328755D072285D7BB5578147EB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_97AD1A52AC180643010868E295907728"
-        "OwnerKey" = "8:_7F4068B3AF2846ABA010FD0735A95796"
+        "OwnerKey" = "8:_F83CA1C38AD816B3BDB2251396F44119"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_97AD1A52AC180643010868E295907728"
-        "OwnerKey" = "8:_C239C13DE6641974BB793FDD508C738C"
+        "OwnerKey" = "8:_7F4068B3AF2846ABA010FD0735A95796"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -160,19 +154,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_97AD1A52AC180643010868E295907728"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_32C597328755D072285D7BB5578147EB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F83CA1C38AD816B3BDB2251396F44119"
+        "OwnerKey" = "8:_7F4068B3AF2846ABA010FD0735A95796"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -184,7 +166,19 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_7F4068B3AF2846ABA010FD0735A95796"
+        "OwnerKey" = "8:_F83CA1C38AD816B3BDB2251396F44119"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_32C597328755D072285D7BB5578147EB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_97AD1A52AC180643010868E295907728"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -201,7 +195,7 @@
         "DisplayName" = "8:Debug"
         "IsDebugOnly" = "11:TRUE"
         "IsReleaseOnly" = "11:FALSE"
-        "OutputFilename" = "8:Debug\\OurCRMToolInstaller.msi"
+        "OutputFilename" = "8:Debug\\OurCRMToolInstaller_2_0_1.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -335,6 +329,11 @@
             "AssemblyAsmDisplayName" = "8:Microsoft.Crm.Sdk.Proxy, Version=8.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_32C597328755D072285D7BB5578147EB"
+                    {
+                    "Name" = "8:Microsoft.Crm.Sdk.Proxy.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:Microsoft.Crm.Sdk.Proxy.dll"
             "TargetName" = "8:"
@@ -421,6 +420,11 @@
             "AssemblyAsmDisplayName" = "8:Microsoft.Xrm.Sdk, Version=8.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_97AD1A52AC180643010868E295907728"
+                    {
+                    "Name" = "8:Microsoft.Xrm.Sdk.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:Microsoft.Xrm.Sdk.dll"
             "TargetName" = "8:"
@@ -527,6 +531,11 @@
             "AssemblyAsmDisplayName" = "8:Microsoft.Xrm.Client, Version=5.0.9689.2166, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_C239C13DE6641974BB793FDD508C738C"
+                    {
+                    "Name" = "8:Microsoft.Xrm.Client.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:Microsoft.Xrm.Client.dll"
             "TargetName" = "8:"
@@ -553,6 +562,11 @@
             "AssemblyAsmDisplayName" = "8:log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_C3A505E116574C20EB80D3B09A298B3F"
+                    {
+                    "Name" = "8:log4net.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:log4net.dll"
             "TargetName" = "8:"
@@ -679,6 +693,11 @@
             "AssemblyAsmDisplayName" = "8:Microsoft.Xrm.Tooling.Connector, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_F83CA1C38AD816B3BDB2251396F44119"
+                    {
+                    "Name" = "8:Microsoft.Xrm.Tooling.Connector.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:Microsoft.Xrm.Tooling.Connector.dll"
             "TargetName" = "8:"
@@ -777,7 +796,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:OurCRMTool"
         "ProductCode" = "8:{510D9882-2186-40A9-9BC6-D3A9877E2261}"
-        "PackageCode" = "8:{EA2A7366-ED57-4456-B507-24212B935CD7}"
+        "PackageCode" = "8:{65A32A5E-F804-4137-83B7-6565B8AEFAB1}"
         "UpgradeCode" = "8:{029891C3-15E9-48FA-9D05-9C3CCE530D6F}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
