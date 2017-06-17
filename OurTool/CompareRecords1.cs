@@ -252,20 +252,17 @@ namespace OurCRMTool
         {
             DataGridView senderGridView = (sender as DataGridView);
             DataGridViewRow rowClicked = senderGridView.CurrentRow;
+
             if (senderGridView.CurrentRow != null)
             {
                 MakeOnlyOneSelection(senderGridView, rowClicked);
+                senderGridView.RefreshEdit();
             }
             dtFields.Clear();
             comboOrderBy.Items.Clear();
             groupBox.Enabled = false;
         }
 
-        /// <summary>
-        /// If the row was already selected, will make it false, if it was not, will make sure is the only row selected
-        /// </summary>
-        /// <param name="grid"></param>
-        /// <param name="row"></param>
         private void MakeOnlyOneSelection(DataGridView grid, DataGridViewRow row)
         {
             if ((bool)row.Cells[0].Value == true)
@@ -276,20 +273,21 @@ namespace OurCRMTool
             }
             else
             {
+                foreach (DataRow r in (grid.DataSource as DataTable).Rows)
+                {
+                    r[0] = false;
+                }
+                row.Cells[0].Value = true;
                 butGetFields.Enabled = true;
                 butGetFields.BackColor = Color.YellowGreen;
-                foreach (DataGridViewRow r in grid.Rows)
-                {
-                    if (r.Equals(row))
-                    {
-                        r.Cells[0].Value = true;
-                    }
-                    else
-                    {
-                        r.Cells[0].Value = false;
-                    }
-                }
             }
+        }
+
+        private void gridEntitties_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView senderGridView = (sender as DataGridView);
+
+            senderGridView.RefreshEdit();
         }
 
         private bool ValidateCompareButton()
@@ -322,11 +320,11 @@ namespace OurCRMTool
         private string GetEntitySelected()
         {
             string entitySelected = string.Empty;
-            foreach (DataGridViewRow r in gridEntities.Rows)
+            foreach (DataRow r in dtEntities.Rows)
             {
-                if ((bool)r.Cells["Check"].Value == true)
+                if ((bool)r["Check"] == true)
                 {
-                    entitySelected = r.Cells["EntityLogicalName"].Value.ToString();
+                    entitySelected = r["EntityLogicalName"].ToString();
                     break;
                 }
             }
@@ -340,17 +338,18 @@ namespace OurCRMTool
             bool isSelectSelected = false;
             bool isKeySelected = false;
 
-            foreach (DataGridViewRow r in gridFieldsToCheck.Rows)
+            foreach (DataRow r in dtFields.Rows)
+
             {
-                if (r.Cells["CheckRecordKey"].Value != null && (bool)r.Cells["CheckRecordKey"].Value == true)
+                if (r["CheckRecordKey"] != null && (bool)r["CheckRecordKey"] == true)
                 {
                     isKeySelected = true;
                 }
-                if (r.Cells["CheckCompare"].Value != null && (bool)r.Cells["CheckCompare"].Value == true)
+                if (r["CheckCompare"] != null && (bool)r["CheckCompare"] == true)
                 {
                     isComapreSelected = true;
                 }
-                if (r.Cells["CheckSelect"].Value != null && (bool)r.Cells["CheckSelect"].Value == true)
+                if (r["CheckSelect"] != null && (bool)r["CheckSelect"] == true)
                 {
                     isSelectSelected = true;
                 }
@@ -412,19 +411,19 @@ namespace OurCRMTool
             compareList.Clear();
             selectList.Clear();
             recordKeyList.Clear();
-            foreach (DataGridViewRow r in gridFieldsToCheck.Rows)
+            foreach (DataRow r in dtFields.Rows)
             {
-                if (r.Cells["CheckCompare"].Value != null && (bool)r.Cells["CheckCompare"].Value == true)
+                if (r["CheckCompare"] != null && (bool)r["CheckCompare"] == true)
                 {
-                    compareList.Add(r.Cells["LocigalName"].Value.ToString(), r.Cells["Type"].Value.ToString());
+                    compareList.Add(r["LocigalName"].ToString(), r["Type"].ToString());
                 }
-                if (r.Cells["CheckSelect"].Value != null && (bool)r.Cells["CheckSelect"].Value == true)
+                if (r["CheckSelect"] != null && (bool)r["CheckSelect"] == true)
                 {
-                    selectList.Add(r.Cells["LocigalName"].Value.ToString(), r.Cells["Type"].Value.ToString());
+                    selectList.Add(r["LocigalName"].ToString(), r["Type"].ToString());
                 }
-                if (r.Cells["CheckRecordKey"].Value != null && (bool)r.Cells["CheckRecordKey"].Value == true)
+                if (r["CheckRecordKey"] != null && (bool)r["CheckRecordKey"] == true)
                 {
-                    recordKeyList.Add(r.Cells["LocigalName"].Value.ToString(), r.Cells["Type"].Value.ToString());
+                    recordKeyList.Add(r["LocigalName"].ToString(), r["Type"].ToString());
                 }
             }
         }

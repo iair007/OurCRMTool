@@ -36,7 +36,7 @@ namespace OurCRMTool
         BackgroundWorker worker2 = new BackgroundWorker();
 
         List<Guid> recordsToCreate = new List<Guid>();
-        Dictionary<DataGridViewRow, Guid> recordsToUpdate = new Dictionary<DataGridViewRow, Guid>();
+        Dictionary<Guid, Entity> recordsToUpdate = new Dictionary<Guid, Entity>();
 
         bool finish1 = false;  //to make 2 async calls and wait until bouth will be done before continue
         bool finish2 = false;
@@ -639,37 +639,35 @@ namespace OurCRMTool
         private void gridEnviroment1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             DataGridView grid = (DataGridView)sender;
-            if (grid.Columns[e.ColumnIndex].Name == "check")
+
+            CellClicked(grid);
+
+            if (grid.Rows[e.RowIndex].Cells["id"].Value.ToString() == string.Empty)
             {
-                if (grid.Rows[e.RowIndex].Cells["id"].Value.ToString() == string.Empty)
-                {
-                    grid.Rows[e.RowIndex].Cells["check"].Value = false;
-                }
-                else
-                {
-                    bool isChecked = !(bool)grid.Rows[e.RowIndex].Cells["check"].Value;
-                    int myIndex = (int)grid.Rows[e.RowIndex].Cells["myIndex"].Value;
-                    EqualSelectionInAllTheGrids(myIndex, grid, isChecked, true);
-                }
+                grid.Rows[e.RowIndex].Cells["check"].Value = false;
+            }
+            else
+            {
+                bool isChecked = (bool)grid.Rows[e.RowIndex].Cells["check"].Value;
+                int myIndex = (int)grid.Rows[e.RowIndex].Cells["myIndex"].Value;
+                EqualSelectionInAllTheGrids(myIndex, grid, isChecked, true);
             }
         }
 
         private void gridEnviroment2_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             DataGridView grid = (DataGridView)sender;
+            CellClicked(grid);
 
-            if (grid.Columns[e.ColumnIndex].Name == "check")
+            if (grid.Rows[e.RowIndex].Cells["id"].Value.ToString() == string.Empty)
             {
-                if (grid.Rows[e.RowIndex].Cells["id"].Value.ToString() == string.Empty)
-                {
-                    grid.Rows[e.RowIndex].Cells["check"].Value = false;
-                }
-                else
-                {
-                    bool isChecked = !(bool)grid.Rows[e.RowIndex].Cells["check"].Value;  //! because it ocurrse befor the change
-                    int myIndex = (int)grid.Rows[e.RowIndex].Cells["myIndex"].Value;
-                    EqualSelectionInAllTheGrids(myIndex, grid, isChecked, false);
-                }
+                grid.Rows[e.RowIndex].Cells["check"].Value = false;
+            }
+            else
+            {
+                bool isChecked = (bool)grid.Rows[e.RowIndex].Cells["check"].Value;  //! because it ocurrse befor the change
+                int myIndex = (int)grid.Rows[e.RowIndex].Cells["myIndex"].Value;
+                EqualSelectionInAllTheGrids(myIndex, grid, isChecked, false);
             }
         }
 
@@ -707,20 +705,20 @@ namespace OurCRMTool
             try
             {
                 DataGridView grid = (DataGridView)sender;
-                if (grid.Columns[e.ColumnIndex].Name == "check")
-                {
-                    if (grid.Rows[e.RowIndex].Cells["id"].Value.ToString() == string.Empty)
-                    {
-                        grid.Rows[e.RowIndex].Cells["check"].Value = false;
-                    }
-                    else
-                    {
+                CellClicked(grid);
 
-                        bool isChecked = !(bool)grid.Rows[e.RowIndex].Cells["check"].Value;
-                        int myIndex = (int)grid.Rows[e.RowIndex].Cells["myIndex"].Value;
-                        EqualSelectionInAllTheGrids(myIndex, grid, isChecked, true);
-                    }
+                if (grid.Rows[e.RowIndex].Cells["id"].Value.ToString() == string.Empty)
+                {
+                    grid.Rows[e.RowIndex].Cells["check"].Value = false;
                 }
+                else
+                {
+
+                    bool isChecked = (bool)grid.Rows[e.RowIndex].Cells["check"].Value;
+                    int myIndex = (int)grid.Rows[e.RowIndex].Cells["myIndex"].Value;
+                    EqualSelectionInAllTheGrids(myIndex, grid, isChecked, true);
+                }
+
             }
             catch { }
         }
@@ -730,20 +728,19 @@ namespace OurCRMTool
             try
             {
                 DataGridView grid = (DataGridView)sender;
+                CellClicked(grid);
 
-                if (grid.Columns[e.ColumnIndex].Name == "check")
+                if (grid.Rows[e.RowIndex].Cells["id"].Value.ToString() == string.Empty)
                 {
-                    if (grid.Rows[e.RowIndex].Cells["id"].Value.ToString() == string.Empty)
-                    {
-                        grid.Rows[e.RowIndex].Cells["check"].Value = false;
-                    }
-                    else
-                    {
-                        bool isChecked = !(bool)grid.Rows[e.RowIndex].Cells["check"].Value;  //! because it ocurrse befor the change
-                        int myIndex = (int)grid.Rows[e.RowIndex].Cells["myIndex"].Value;
-                        EqualSelectionInAllTheGrids(myIndex, grid, isChecked, false);
-                    }
+                    grid.Rows[e.RowIndex].Cells["check"].Value = false;
                 }
+                else
+                {
+                    bool isChecked = (bool)grid.Rows[e.RowIndex].Cells["check"].Value;  //! because it ocurrse befor the change
+                    int myIndex = (int)grid.Rows[e.RowIndex].Cells["myIndex"].Value;
+                    EqualSelectionInAllTheGrids(myIndex, grid, isChecked, false);
+                }
+
             }
             catch { }
         }
@@ -813,39 +810,37 @@ namespace OurCRMTool
         private void gridOnlyIn1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             DataGridView grid = (DataGridView)sender;
+            CellClicked(grid);
 
-            if (grid.Columns[e.ColumnIndex].Name == "check")
+            if (grid.Rows[e.RowIndex].Cells["id"].Value.ToString() == string.Empty)
             {
-                if (grid.Rows[e.RowIndex].Cells["id"].Value.ToString() == string.Empty)
-                {
-                    grid.Rows[e.RowIndex].Cells["check"].Value = false;
-                }
-                else
-                {
-                    bool isChecked = !(bool)grid.Rows[e.RowIndex].Cells["check"].Value;
-                    int myIndex = (int)grid.Rows[e.RowIndex].Cells["myIndex"].Value;
-                    EqualSelectionInAllTheGrids(myIndex, grid, isChecked, true);
-                }
+                grid.Rows[e.RowIndex].Cells["check"].Value = false;
+            }
+            else
+            {
+                bool isChecked = (bool)grid.Rows[e.RowIndex].Cells["check"].Value;
+                int myIndex = (int)grid.Rows[e.RowIndex].Cells["myIndex"].Value;
+                EqualSelectionInAllTheGrids(myIndex, grid, isChecked, true);
             }
         }
 
         private void gridOnlyIn2_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             DataGridView grid = (DataGridView)sender;
+            CellClicked(grid);
 
-            if (grid.Columns[e.ColumnIndex].Name == "check")
+
+            if (grid.Rows[e.RowIndex].Cells["id"].Value.ToString() == string.Empty)
             {
-                if (grid.Rows[e.RowIndex].Cells["id"].Value.ToString() == string.Empty)
-                {
-                    grid.Rows[e.RowIndex].Cells["check"].Value = false;
-                }
-                else
-                {
-                    bool isChecked = !(bool)grid.Rows[e.RowIndex].Cells["check"].Value;
-                    int myIndex = (int)grid.Rows[e.RowIndex].Cells["myIndex"].Value;
-                    EqualSelectionInAllTheGrids(myIndex, grid, isChecked, false);
-                }
+                grid.Rows[e.RowIndex].Cells["check"].Value = false;
             }
+            else
+            {
+                bool isChecked = (bool)grid.Rows[e.RowIndex].Cells["check"].Value;
+                int myIndex = (int)grid.Rows[e.RowIndex].Cells["myIndex"].Value;
+                EqualSelectionInAllTheGrids(myIndex, grid, isChecked, false);
+            }
+
         }
 
         private void butSelAllOnlyIn1_Click(object sender, EventArgs e)
@@ -885,6 +880,19 @@ namespace OurCRMTool
             }
         }
         #endregion
+
+        private void grid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView senderGridView = (sender as DataGridView);
+            senderGridView.RefreshEdit();
+        }
+
+        private void CellClicked(DataGridView grid)
+        {
+            DataGridViewRow rowClicked = grid.CurrentRow;
+            rowClicked.Cells["check"].Value = !(bool)rowClicked.Cells["check"].Value;
+            grid.RefreshEdit();
+        }
 
         private void SetComboFilterBy()
         {
@@ -1030,7 +1038,6 @@ namespace OurCRMTool
             try
             {
                 string message = string.Empty;
-                this.Cursor = Cursors.WaitCursor;
                 List<DataGridViewRow> selectedRecords = GetSelectedRecords(gridEnviroment1);
                 CreateListToUpdateAndCreate(selectedRecords, true);
 
@@ -1053,7 +1060,6 @@ namespace OurCRMTool
         private void butFrom2To1_Click(object sender, EventArgs e)
         {
             string message = string.Empty;
-            this.Cursor = Cursors.WaitCursor;
             List<DataGridViewRow> selectedRecords = GetSelectedRecords(gridEnviroment2);
             CreateListToUpdateAndCreate(selectedRecords, false);
 
@@ -1095,7 +1101,9 @@ namespace OurCRMTool
                     {
                         if (r2.Cells["id"].Value.ToString() != string.Empty)
                         {
-                            recordsToUpdate.Add(r1, new Guid(r2.Cells["id"].Value.ToString()));
+                            Entity e = new Entity();
+                            e.Id = new Guid(r1.Cells["id"].Value.ToString());
+                            recordsToUpdate.Add(new Guid(r2.Cells["id"].Value.ToString()), e);  //the Entity will be retrieved later with all the fields needed to
                             goNext = true;
                             break;
                         }

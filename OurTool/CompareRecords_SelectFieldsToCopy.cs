@@ -24,12 +24,12 @@ namespace OurCRMTool
         string primatyField;
         string entityName;
         List<Guid> recordsToCreate = new List<Guid>();
-        bool inEnviroment2;
-        Dictionary<DataGridViewRow, Guid> recordsToUpdate = new Dictionary<DataGridViewRow, Guid>();
+        bool from1To2;
+        Dictionary<Guid, Entity> recordsToUpdate = new Dictionary<Guid, Entity>();   //Entity = is the record that want to copy TO the other environment, Guid is the guis of the record to update
 
         #region Contructor
 
-        public CompareRecords_SelectFieldsToCopy(BL2Enviroments _bl, bool _inEnviroment2, string _entityName, DataTable _dtFields, List<Guid> _recordsToCreate, Dictionary<DataGridViewRow, Guid> _recordsToUpdate, log4net.ILog _log)
+        public CompareRecords_SelectFieldsToCopy(BL2Enviroments _bl, bool _From1To2, string _entityName, DataTable _dtFields, List<Guid> _recordsToCreate, Dictionary<Guid, Entity> _recordsToUpdate, log4net.ILog _log)
         {
             InitializeComponent();
             log = _log;
@@ -39,7 +39,7 @@ namespace OurCRMTool
             dtFields = _dtFields.Copy();
             recordsToCreate = _recordsToCreate;
             recordsToUpdate = _recordsToUpdate;
-            inEnviroment2 = _inEnviroment2;  //set dirrection from enviroment 1 to 2 or the opposite
+            from1To2 = _From1To2;  //set dirrection from enviroment 1 to 2 or the opposite
             SetFieldGrid();
         }
 
@@ -165,13 +165,14 @@ namespace OurCRMTool
                     SetSelectList();
                     if (recordsToCreate.Count() > 0)
                     {
-                        EntityCollection records = bl.GetAllColumnsForRecords(true, entityName, recordsToCreate, selectList);
+                        EntityCollection records = bl.GetAllColumnsForRecords(from1To2, entityName, recordsToCreate, selectList);
                         message += bl.CreateRecordInEnviroment(true, records, entityName, ref closeFormWhenFinish);
                     }
 
                     if (recordsToUpdate.Count() > 0)
                     {
-                        message += bl.UpdateRecordInEnviroment(true, recordsToUpdate, entityName, selectList, ref closeFormWhenFinish);
+                        recordsToUpdate = bl.GetAllRecordsToUpdate(from1To2, entityName, recordsToUpdate, selectList);
+                        message += bl.UpdateRecordInEnviroment(from1To2, recordsToUpdate, entityName, selectList, ref closeFormWhenFinish);
                     }
 
                     if (recordsToCreate.Count() == 0 && recordsToUpdate.Count() == 0)
@@ -182,13 +183,19 @@ namespace OurCRMTool
                     Cursor.Current = Cursors.Default;
                     MessageBox.Show(message);
 
-                    if (closeFormWhenFinish) {
+                    if (closeFormWhenFinish)
+                    {
                         this.Close();
                     }
                 }
             }
             catch (Exception ex)
             {
+                int indexColumn = ex.Message.IndexOf("Column : ") + 9;
+                int indexAfterWordSpace = ex.Message.IndexOf(" ", indexColumn);
+                string columnName = ex.Message.Substring(indexColumn, indexAfterWordSpace - indexColumn);
+                string title = string.Format("Cannot copy Column {0}", columnName);
+
                 log.Error("CompareRecords_SelectFieldsToCopy.butRun_Click: " + ex.Message);
             }
         }

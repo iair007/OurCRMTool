@@ -215,7 +215,46 @@ namespace OurCRMTool
             return allRecords;
         }
 
-        public string UpdateRecordInEnviroment(bool fromEnviroment1To2, Dictionary<DataGridViewRow, Guid> recordsToUpdate, string entityName, Dictionary<string, string> selectFields, ref bool closeFormWhenFinish)
+        /// <summary>
+        /// Retreive all the records that want to update in the other environmnent with the coresponding fields
+        /// </summary>
+        /// <param name="fromService1"></param>
+        /// <param name="entityName"></param>
+        /// <param name="rows"></param>
+        /// <returns></returns>
+        public Dictionary<Guid, Entity> GetAllRecordsToUpdate(bool fromService1, string entityName, Dictionary<Guid, Entity> recordsToUpdate, Dictionary<string, string> selectFields)
+        {
+            Dictionary<Guid, Entity> ret = new Dictionary<Guid, Entity>();
+            if (recordsToUpdate.Count() > 0 && selectFields != null && selectFields.Count() > 0)
+            {
+                IOrganizationService service = fromService1 ? service1 : service2;
+
+                ColumnSet columns = new ColumnSet();
+
+                foreach (string fieldName in selectFields.Keys)
+                {
+                    columns.AddColumn(fieldName.ToLower());
+                }
+
+                foreach (KeyValuePair<Guid, Entity> r in recordsToUpdate)
+                {
+                    QueryExpression query = new QueryExpression(entityName);
+                    query.ColumnSet = columns;
+                    query.Criteria.AddCondition(new ConditionExpression(entityName + "id", ConditionOperator.Equal, r.Value.Id));
+
+                    EntityCollection results = service.RetrieveMultiple(query);
+                    if (results.Entities.Count() > 0)
+                    {
+                        ret.Add(r.Key, results.Entities[0]);
+                    }
+                }
+            }
+
+            return ret;
+        }
+
+
+        public string UpdateRecordInEnviroment(bool fromEnviroment1To2, Dictionary<Guid, Entity> recordsToUpdate, string entityName, Dictionary<string, string> selectFields, ref bool closeFormWhenFinish)
         {
             string message = string.Empty;
             int maxBatchSize = 1000;
@@ -233,23 +272,32 @@ namespace OurCRMTool
                 Requests = new OrganizationRequestCollection()
             };
 
-            foreach (KeyValuePair<DataGridViewRow, Guid> r in recordsToUpdate)
+            foreach (KeyValuePair<Guid, Entity> r in recordsToUpdate)
             {
                 Entity recotordToUpdate = new Entity(entityName);
-                recotordToUpdate.Id = r.Value;
+                recotordToUpdate.Id = r.Key;
 
-                foreach (DataGridViewCell cell in r.Key.Cells)
+                foreach (KeyValuePair<string, object> a in r.Value.Attributes)
                 {
-                    //Only update values that are no EntityReference
-                    if (selectFields.Keys.Contains(cell.OwningColumn.Name))
-                    //            && selectFields[cell.OwningColumn.Name] != "entityreference"
-                    //            && selectFields[cell.OwningColumn.Name] != "lookup"
-                    //            && selectFields[cell.OwningColumn.Name] != "owner")
+                    if (a.Key != "Id" && a.Key != entityName + "id")
                     {
-                        //if is one of the column that the user is seen, update it in the other enviroment
-                        recotordToUpdate[cell.OwningColumn.Name] = ConvertToObject(cell.Value.ToString(), selectFields[cell.OwningColumn.Name]);
+                        recotordToUpdate[a.Key] = a.Value;
                     }
                 }
+
+                //foreach (DataGridViewCell cell in r.Value)
+                //{
+
+                // //Only update values that are no EntityReference
+                //  if (selectFields.Keys.Contains(cell.OwningColumn.Name))
+                ////            && selectFields[cell.OwningColumn.Name] != "entityreference"
+                ////            && selectFields[cell.OwningColumn.Name] != "lookup"
+                ////            && selectFields[cell.OwningColumn.Name] != "owner")
+                // {
+                ////if is one of the column that the user is seen, update it in the other enviroment
+                //     recotordToUpdate[cell.OwningColumn.Name] = ConvertToObject(cell.Value.ToString(), selectFields[cell.OwningColumn.Name]);
+                // }
+                // }
 
                 UpdateRequest updateRequest = new UpdateRequest { Target = recotordToUpdate };
                 requestWithResults.Requests.Add(updateRequest);
