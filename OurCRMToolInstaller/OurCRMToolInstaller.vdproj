@@ -70,7 +70,7 @@
         "Entry"
         {
         "MsmKey" = "8:_97AD1A52AC180643010868E295907728"
-        "OwnerKey" = "8:_C239C13DE6641974BB793FDD508C738C"
+        "OwnerKey" = "8:_32C597328755D072285D7BB5578147EB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -82,7 +82,7 @@
         "Entry"
         {
         "MsmKey" = "8:_97AD1A52AC180643010868E295907728"
-        "OwnerKey" = "8:_32C597328755D072285D7BB5578147EB"
+        "OwnerKey" = "8:_C239C13DE6641974BB793FDD508C738C"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -166,19 +166,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_C239C13DE6641974BB793FDD508C738C"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_7F4068B3AF2846ABA010FD0735A95796"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_C3A505E116574C20EB80D3B09A298B3F"
+        "OwnerKey" = "8:_32C597328755D072285D7BB5578147EB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -190,7 +178,19 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_32C597328755D072285D7BB5578147EB"
+        "OwnerKey" = "8:_C3A505E116574C20EB80D3B09A298B3F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_7F4068B3AF2846ABA010FD0735A95796"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_C239C13DE6641974BB793FDD508C738C"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -776,15 +776,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:OurCRMTool"
-        "ProductCode" = "8:{67C57B5A-5704-4403-B96E-46C6A5C65023}"
-        "PackageCode" = "8:{E88642F6-5241-484A-B8B6-56C1F0855AFE}"
+        "ProductCode" = "8:{510D9882-2186-40A9-9BC6-D3A9877E2261}"
+        "PackageCode" = "8:{EA2A7366-ED57-4456-B507-24212B935CD7}"
         "UpgradeCode" = "8:{029891C3-15E9-48FA-9D05-9C3CCE530D6F}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:2.0.0"
+        "ProductVersion" = "8:2.0.1"
         "Manufacturer" = "8:OurCRMTool"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -794,7 +794,7 @@
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:"
         "ARPURLINFOABOUT" = "8:www.ourcrmtool.com"
-        "ARPPRODUCTICON" = "8:"
+        "ARPPRODUCTICON" = "8:_E93A1549A13D42D2A14E1EE96033A11C"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
