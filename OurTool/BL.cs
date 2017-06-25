@@ -1024,6 +1024,7 @@ namespace OurCRMTool
                         userImage = Image.FromFile(ResourcesPath + "\\User.gif");
                     }
                     ImgToRet = userImage;
+                    ImgToRet.Tag = 1;
                     break;
                 case 2:
                     if (BUImage == null)
@@ -1031,6 +1032,7 @@ namespace OurCRMTool
                         BUImage = Image.FromFile(ResourcesPath + "\\BusinessUnit.gif");
                     }
                     ImgToRet = BUImage;
+                    ImgToRet.Tag = 2;
                     break;
                 case 4:
                     if (parentImage == null)
@@ -1038,6 +1040,7 @@ namespace OurCRMTool
                         parentImage = Image.FromFile(ResourcesPath + "\\Parent.gif");
                     }
                     ImgToRet = parentImage;
+                    ImgToRet.Tag = 4;
                     break;
                 case 8:
                     if (orgImage == null)
@@ -1045,6 +1048,7 @@ namespace OurCRMTool
                         orgImage = Image.FromFile(ResourcesPath + "\\Organization.gif");
                     }
                     ImgToRet = orgImage;
+                    ImgToRet.Tag = 8;
                     break;
                 default:
                     if (noneImage == null)

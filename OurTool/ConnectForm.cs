@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Xml;
 using System.Security.Permissions;
 using System.IO;
+using System.Reflection;
 
 namespace OurCRMTool
 {
@@ -534,5 +535,10 @@ namespace OurCRMTool
             form.ShowDialog();
         }
 
+        private void ConnectForm_Load(object sender, EventArgs e)
+        {
+            Version version = Assembly.GetExecutingAssembly().GetName().Version;
+            this.lblVersion.Text = String.Format(this.lblVersion.Text, version.Major, version.Minor, version.Build, version.Revision);
+        }
     }
 }

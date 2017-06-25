@@ -45,6 +45,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_671DB084618F4D6783A05F3069A8236F"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_6D636C6BAEA3490EA79974CB8FF693A5"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -357,6 +363,26 @@
             {
             "SourcePath" = "8:..\\OurTool\\bin\\Debug\\Resources\\DefaultTeamsBackUp.csv"
             "TargetName" = "8:DefaultTeamsBackUp.csv"
+            "Tag" = "8:"
+            "Folder" = "8:_6830A4AE602C4987AB4BFC23B49BB34E"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_671DB084618F4D6783A05F3069A8236F"
+            {
+            "SourcePath" = "8:..\\OurTool\\bin\\Debug\\Resources\\role-based.png"
+            "TargetName" = "8:role-based.png"
             "Tag" = "8:"
             "Folder" = "8:_6830A4AE602C4987AB4BFC23B49BB34E"
             "Condition" = "8:"
@@ -795,15 +821,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:OurCRMTool"
-        "ProductCode" = "8:{510D9882-2186-40A9-9BC6-D3A9877E2261}"
-        "PackageCode" = "8:{65A32A5E-F804-4137-83B7-6565B8AEFAB1}"
+        "ProductCode" = "8:{4D99C43F-8322-4BB6-AFB7-6F319FECE922}"
+        "PackageCode" = "8:{FADAD4DC-1738-459E-870F-8C8A9D3908EA}"
         "UpgradeCode" = "8:{029891C3-15E9-48FA-9D05-9C3CCE530D6F}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:2.0.1"
+        "ProductVersion" = "8:2.0.3"
         "Manufacturer" = "8:OurCRMTool"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"

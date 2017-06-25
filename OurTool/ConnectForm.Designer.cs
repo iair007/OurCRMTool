@@ -42,6 +42,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.chkOnline = new System.Windows.Forms.CheckBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.button2 = new System.Windows.Forms.Button();
             this.butChangeRecordStatus = new System.Windows.Forms.Button();
             this.buChangeAttendees = new System.Windows.Forms.Button();
             this.butResetDef = new System.Windows.Forms.Button();
@@ -51,7 +52,6 @@
             this.butCheckDefault = new System.Windows.Forms.Button();
             this.butUserSettingsUpdate = new System.Windows.Forms.Button();
             this.butDefaultTeamSelector = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tab = new System.Windows.Forms.TabControl();
             this.tabOneEnviroment = new System.Windows.Forms.TabPage();
@@ -83,6 +83,7 @@
             this.txtSourcePass = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.txtSourceUserName = new System.Windows.Forms.TextBox();
+            this.lblVersion = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tab.SuspendLayout();
@@ -219,6 +220,18 @@
             this.panel2.Size = new System.Drawing.Size(827, 149);
             this.panel2.TabIndex = 11;
             // 
+            // button2
+            // 
+            this.button2.BackColor = System.Drawing.SystemColors.Control;
+            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.button2.Location = new System.Drawing.Point(295, 43);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(222, 23);
+            this.button2.TabIndex = 61;
+            this.button2.Text = "Security Roles Analyzer by User";
+            this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // butChangeRecordStatus
             // 
             this.butChangeRecordStatus.BackColor = System.Drawing.SystemColors.Control;
@@ -331,18 +344,6 @@
             this.butDefaultTeamSelector.Visible = false;
             this.butDefaultTeamSelector.Click += new System.EventHandler(this.butDefaultTeamSelector_Click);
             // 
-            // button2
-            // 
-            this.button2.BackColor = System.Drawing.SystemColors.Control;
-            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.button2.Location = new System.Drawing.Point(295, 43);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(222, 23);
-            this.button2.TabIndex = 61;
-            this.button2.Text = "Security Roles Analyzer by User";
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
             // tab
             // 
             this.tab.Controls.Add(this.tabOneEnviroment);
@@ -355,6 +356,7 @@
             // 
             // tabOneEnviroment
             // 
+            this.tabOneEnviroment.Controls.Add(this.lblVersion);
             this.tabOneEnviroment.Controls.Add(this.button1);
             this.tabOneEnviroment.Controls.Add(this.panel1);
             this.tabOneEnviroment.Controls.Add(this.panel2);
@@ -647,6 +649,15 @@
             this.txtSourceUserName.Size = new System.Drawing.Size(172, 20);
             this.txtSourceUserName.TabIndex = 24;
             // 
+            // lblVersion
+            // 
+            this.lblVersion.AutoSize = true;
+            this.lblVersion.Location = new System.Drawing.Point(715, 440);
+            this.lblVersion.Name = "lblVersion";
+            this.lblVersion.Size = new System.Drawing.Size(137, 13);
+            this.lblVersion.TabIndex = 60;
+            this.lblVersion.Text = "Version: {0}.{1}.{2}.{3}";
+            // 
             // ConnectForm
             // 
             this.AcceptButton = this.butConnectOneEnviroment;
@@ -660,11 +671,13 @@
             this.MaximizeBox = false;
             this.Name = "ConnectForm";
             this.Text = "OurCRMTool";
+            this.Load += new System.EventHandler(this.ConnectForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.tab.ResumeLayout(false);
             this.tabOneEnviroment.ResumeLayout(false);
+            this.tabOneEnviroment.PerformLayout();
             this.tabTwoEnviroment.ResumeLayout(false);
             this.panel6.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
@@ -731,6 +744,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button butChangeRecordStatus;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label lblVersion;
     }
 }
 

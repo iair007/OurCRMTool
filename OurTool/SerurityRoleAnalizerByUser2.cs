@@ -20,6 +20,7 @@ namespace OurCRMTool
         string entityName;
         log4net.ILog log;
         string OPEN_ROLE_IN_CRM = "Open Role in CRM";
+        string OPEN_ROLE_COLUMN_NAME = "openRoleInCRM";
         string OPERN_ANALIZE_ROLE_BY_USER_AND_ENTITY = "RolesByUserAndEntity";
         bool finishRetrievingData = false;
         EntityReference userOrTeamRef;
@@ -228,7 +229,7 @@ namespace OurCRMTool
             table.Columns.Add("AppendTo" + identifier, typeof(Image));
             table.Columns.Add("Assign" + identifier, typeof(Image));
             table.Columns.Add("Share" + identifier, typeof(Image));
-            table.Columns.Add("RolesByUserAndEntity" + identifier, typeof(string));
+            table.Columns.Add("RolesByUserAndEntity" + identifier, typeof(Image));
 
             table.PrimaryKey = new DataColumn[] { table.Columns["LogicName" + identifier] };
         }
@@ -398,6 +399,7 @@ namespace OurCRMTool
                 rolePrivilege = bl.GetGlobalPrivilege();
 
                 Image nonePrivImage = bl.GetImage();
+                Image roleBaseImage = bl.GetImage("role-based.png");
 
                 foreach (EntityMetadata currentEntity in entityMetadata.EntityMetadata)
                 {
@@ -405,11 +407,11 @@ namespace OurCRMTool
                     {
                         if ((bool)currentEntity.IsCustomEntity == true)
                         {
-                            dtCustomEntities.Rows.Add(currentEntity.ObjectTypeCode, currentEntity.LogicalName, currentEntity.DisplayName.UserLocalizedLabel.Label, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, OPERN_ANALIZE_ROLE_BY_USER_AND_ENTITY);
+                            dtCustomEntities.Rows.Add(currentEntity.ObjectTypeCode, currentEntity.LogicalName, currentEntity.DisplayName.UserLocalizedLabel.Label, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, roleBaseImage);
                         }
                         else
                         {
-                            dtSystemEntities.Rows.Add(currentEntity.ObjectTypeCode, currentEntity.LogicalName, currentEntity.DisplayName.UserLocalizedLabel.Label, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, OPERN_ANALIZE_ROLE_BY_USER_AND_ENTITY);
+                            dtSystemEntities.Rows.Add(currentEntity.ObjectTypeCode, currentEntity.LogicalName, currentEntity.DisplayName.UserLocalizedLabel.Label, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, nonePrivImage, roleBaseImage);
                         }
                     }
                 }
@@ -674,10 +676,6 @@ namespace OurCRMTool
                 {
                     selectedRows.Rows.Add(r.Cells["RoleId"].Value.ToString(), r.Cells["RoleName"].Value.ToString());
                     nrRecordsCheked++;
-                    if (nrRecordsCheked > 1)
-                    {  //used for teams grid, only can be selected one team to check its security Roles
-                        break;
-                    }
                 }
             }
             return nrRecordsCheked;
@@ -748,23 +746,47 @@ namespace OurCRMTool
             {
                 // ClearPrivilegeGrids();
                 DataGridView senderGridView = (sender as DataGridView);
-
-                if (senderGridView.CurrentCell.Value.ToString() == OPERN_ANALIZE_ROLE_BY_USER_AND_ENTITY)
+                if (senderGridView.Name.Contains("Entities"))
                 {
-                    int objecttypcode;
-                    string entityname;
-                    if (senderGridView.Name.Contains(CUSTOM))
+                    if (senderGridView.Columns[senderGridView.CurrentCell.ColumnIndex].Name.StartsWith(OPERN_ANALIZE_ROLE_BY_USER_AND_ENTITY))
                     {
-                        objecttypcode = int.Parse(senderGridView.CurrentRow.Cells["ObjectTypeCode" + CUSTOM].Value.ToString());
-                        entityname = senderGridView.CurrentRow.Cells["LogicName" + CUSTOM].Value.ToString();
-                    }
-                    else {
-                        objecttypcode = int.Parse(senderGridView.CurrentRow.Cells["ObjectTypeCode" + SYSTEM].Value.ToString());
-                        entityname = senderGridView.CurrentRow.Cells["LogicName" + SYSTEM].Value.ToString();
-                    }
+                        int objecttypcode;
+                        string entityname;
+                        if (senderGridView.Name.Contains("Custom"))
+                        {
+                            objecttypcode = int.Parse(senderGridView.CurrentRow.Cells["ObjectTypeCode" + CUSTOM].Value.ToString());
+                            entityname = senderGridView.CurrentRow.Cells["LogicName" + CUSTOM].Value.ToString();
+                        }
+                        else {
+                            objecttypcode = int.Parse(senderGridView.CurrentRow.Cells["ObjectTypeCode" + SYSTEM].Value.ToString());
+                            entityname = senderGridView.CurrentRow.Cells["LogicName" + SYSTEM].Value.ToString();
+                        }
 
-                    RolesByUserAndEntity f = new RolesByUserAndEntity(objecttypcode, entityname, userTeamName, GetSelectedRoles(), bl, log);
-                    f.ShowDialog();
+                        List<Guid> rolesToSend = new List<Guid>();
+                        rolesToSend = GetSelectedRoles();
+                        bool getAllRoles = false;
+
+                        if (GetSelectedRoles().Count() != gridRoles.Rows.Count)
+                        {
+                            DialogResult ret = MessageBox.Show("Would you like to see all the roles the user has that give privilege to this Entity?," + Environment.NewLine + " or press NO to se only the selected Roles?", "Opening Roles by User and Entity", MessageBoxButtons.YesNo);
+
+                            if (ret == DialogResult.Yes)
+                            {
+                                getAllRoles = true;
+                            }
+                        }
+                        if (getAllRoles == true) {
+                            rolesToSend.Clear();
+                            foreach (DataGridViewRow r in gridRoles.Rows)
+                            {
+                                rolesToSend.Add(new Guid(r.Cells["RoleId"].Value.ToString()));
+                            }
+                        }
+
+                        RolesByUserAndEntity f = new RolesByUserAndEntity(objecttypcode, entityname, userTeamName, rolesToSend, bl, log);
+                        f.ShowDialog();
+
+                    }
                 }
             }
             catch (Exception ex)
@@ -772,8 +794,39 @@ namespace OurCRMTool
                 throw ex;
                 //  log.HandleException(ex, 0, "SerurityRoleAnalizerByUser2.CellClick");
             }
-
-
         }
+        private void gridSystemEntities_MouseHover(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            DataGridView senderGridView = (sender as DataGridView);
+
+            if (senderGridView.Columns[e.ColumnIndex].Name.StartsWith(OPERN_ANALIZE_ROLE_BY_USER_AND_ENTITY))
+            {
+                senderGridView.Cursor = Cursors.Hand;
+            }
+            else {
+                senderGridView.Cursor = Cursors.Default;
+            }
+        }
+
+        private void gridRoles_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            DataGridView senderGridView = (sender as DataGridView);
+
+            if (senderGridView.Columns[e.ColumnIndex].Name.StartsWith(OPEN_ROLE_COLUMN_NAME))
+            {
+                senderGridView.Cursor = Cursors.Hand;
+            }
+            else {
+                senderGridView.Cursor = Cursors.Default;
+            }
+        }
+
+        private void lbUser1_MouseHover(object sender, EventArgs e)
+        {
+            System.Windows.Forms.Label label = (sender as System.Windows.Forms.Label);
+            label.Cursor = Cursors.Hand; 
+        }
+
+      
     }
 }

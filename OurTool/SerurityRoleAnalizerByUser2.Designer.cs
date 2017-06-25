@@ -94,6 +94,7 @@
             this.gridSystemEntities.TabIndex = 39;
             this.gridSystemEntities.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSystemEntities_CellClick);
             this.gridSystemEntities.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.AddToolTip);
+            this.gridSystemEntities.CellMouseMove += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridSystemEntities_MouseHover);
             // 
             // label1
             // 
@@ -109,12 +110,13 @@
             // 
             this.lbUser1.AutoSize = true;
             this.lbUser1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.lbUser1.Location = new System.Drawing.Point(21, 18);
+            this.lbUser1.Location = new System.Drawing.Point(21, 4);
             this.lbUser1.Name = "lbUser1";
             this.lbUser1.Size = new System.Drawing.Size(47, 17);
             this.lbUser1.TabIndex = 59;
             this.lbUser1.Text = "User:";
             this.lbUser1.Click += new System.EventHandler(this.lbUser1_Click);
+            this.lbUser1.MouseHover += new System.EventHandler(this.lbUser1_MouseHover);
             // 
             // panel1
             // 
@@ -186,12 +188,13 @@
             // 
             this.lbUser2.AutoSize = true;
             this.lbUser2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.lbUser2.Location = new System.Drawing.Point(13, 16);
+            this.lbUser2.Location = new System.Drawing.Point(13, 4);
             this.lbUser2.Name = "lbUser2";
             this.lbUser2.Size = new System.Drawing.Size(47, 17);
             this.lbUser2.TabIndex = 60;
             this.lbUser2.Text = "User:";
             this.lbUser2.Click += new System.EventHandler(this.lbUser2_Click);
+            this.lbUser2.MouseHover += new System.EventHandler(this.lbUser1_MouseHover);
             // 
             // gridGlobal
             // 
@@ -243,12 +246,13 @@
             // 
             this.lbUser3.AutoSize = true;
             this.lbUser3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.lbUser3.Location = new System.Drawing.Point(16, 22);
+            this.lbUser3.Location = new System.Drawing.Point(16, 4);
             this.lbUser3.Name = "lbUser3";
             this.lbUser3.Size = new System.Drawing.Size(47, 17);
             this.lbUser3.TabIndex = 60;
             this.lbUser3.Text = "User:";
             this.lbUser3.Click += new System.EventHandler(this.lbUser3_Click);
+            this.lbUser3.MouseHover += new System.EventHandler(this.lbUser1_MouseHover);
             // 
             // gridCustomEntities
             // 
@@ -264,7 +268,9 @@
             this.gridCustomEntities.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gridCustomEntities.Size = new System.Drawing.Size(633, 393);
             this.gridCustomEntities.TabIndex = 40;
+            this.gridCustomEntities.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSystemEntities_CellClick);
             this.gridCustomEntities.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.AddToolTip);
+            this.gridCustomEntities.CellMouseMove += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridSystemEntities_MouseHover);
             // 
             // lbl
             // 
@@ -300,6 +306,7 @@
             this.gridRoles.TabIndex = 64;
             this.gridRoles.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridRoles_CellClick);
             this.gridRoles.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.AddToolTip2);
+            this.gridRoles.CellMouseMove += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridRoles_CellMouseMove);
             // 
             // butClearRoles
             // 
