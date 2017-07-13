@@ -501,7 +501,7 @@ namespace OurCRMTool
                 enviroment2Url = SetCRMUrl(txtTarget.Text, chkIsTargetOnline.Checked);
                 if (chkTargetDefaultCredentials.Checked)
                 {
-                    service2 = crmHelper.GetCRMService(enviroment1Url);
+                    service2 = crmHelper.GetCRMService(enviroment2Url);
                 }
                 else if (enviroment2Url != string.Empty && txtTargetDom.Text == string.Empty)
                 {
