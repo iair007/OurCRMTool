@@ -30,11 +30,15 @@ namespace OurCRMTool
         private Image noneImage = null;
         log4net.ILog log;
 
-        public BL(string _url, string dom, string user, string pass, log4net.ILog _log)
+        public BL(string _url, string dom, string user, string pass, bool userDefaultCredentials, log4net.ILog _log)
         {
             log = _log;
             crmHelper = new CRMHelpper(log);
-            if (dom == string.Empty)
+            if (userDefaultCredentials)
+            {
+                service = crmHelper.GetCRMService(_url);
+            }
+            else if (dom == string.Empty)
             {
                 service = crmHelper.GetCRMServiceOnline(user, pass, _url);
             }

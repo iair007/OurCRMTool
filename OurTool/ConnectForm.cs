@@ -22,6 +22,8 @@ namespace OurCRMTool
         IOrganizationService service2 = null;
         string _ConnectionConfigPath;
         string[] _connectionConfig;
+        LogUtils _logUtils = new LogUtils();
+
         private static readonly ILog _log = LogManager.GetLogger(typeof(Program));
         public ILog log
         {
@@ -54,7 +56,7 @@ namespace OurCRMTool
                     }
                     else
                     {
-                        log.Error("Cant find file: " + ConnectionConfigPath);
+                        //      log.Error("Cant find file: " + ConnectionConfigPath);
                     }
                 }
                 return _connectionConfig;
@@ -65,8 +67,17 @@ namespace OurCRMTool
         {
             InitializeComponent();
             log4net.Config.XmlConfigurator.Configure();
-            log.Error("test");
-            log.Info("info");
+
+            txtDom.Enabled = !chkDefaultCredentials.Checked;
+            txtUserName.Enabled = !chkDefaultCredentials.Checked;
+            txtPass.Enabled = !chkDefaultCredentials.Checked;
+            txtTargetDom.Enabled = !chkTargetDefaultCredentials.Checked;
+            txtTargetUserName.Enabled = !chkTargetDefaultCredentials.Checked;
+            txtTargetPass.Enabled = !chkTargetDefaultCredentials.Checked;
+            txtSourceDom.Enabled = !chkSourceDefaultCredentials.Checked;
+            txtSourceUserName.Enabled = !chkSourceDefaultCredentials.Checked;
+            txtSourcePass.Enabled = !chkSourceDefaultCredentials.Checked;
+
             if (ConnectionConfig != null)
             {
                 string url = GetConfigParameter("Url");
@@ -132,7 +143,22 @@ namespace OurCRMTool
                 {
                     chkIsTargetOnline.Checked = true;
                 }
+            }
+            else
+            {
+                txtUrl.Text = ConfigurationManager.AppSettings["Url"];
+                txtDom.Text = ConfigurationManager.AppSettings["Domain"];
+                txtUserName.Text = ConfigurationManager.AppSettings["Username"];
+                chkDefaultCredentials.Checked = ConfigurationManager.AppSettings["UserDefaultCredentials"] == "1" ? true : false;
 
+                txtSource.Text = ConfigurationManager.AppSettings["URI_Dev"];
+                txtSourceDom.Text = ConfigurationManager.AppSettings["Domain_Dev"];
+                txtSourceUserName.Text = ConfigurationManager.AppSettings["Username_Dev"];
+                chkSourceDefaultCredentials.Checked = ConfigurationManager.AppSettings["UserDefaultCredentials_DeV"] == "1" ? true : false;
+                txtTarget.Text = ConfigurationManager.AppSettings["URI_QA"];
+                txtTargetDom.Text = ConfigurationManager.AppSettings["Domain_QA"];
+                txtTargetUserName.Text = ConfigurationManager.AppSettings["Username_QA"];
+                chkTargetDefaultCredentials.Checked = ConfigurationManager.AppSettings["UserDefaultCredentials_QA"] == "1" ? true : false;
             }
         }
 
@@ -140,38 +166,40 @@ namespace OurCRMTool
         {
             try
             {
-                if (txtUrl.Text != string.Empty && txtUserName.Text != string.Empty && txtPass.Text != string.Empty)
+                //if (txtUrl.Text != string.Empty && txtUserName.Text != string.Empty && txtPass.Text != string.Empty)
+                //{
+                Cursor.Current = Cursors.WaitCursor;
+                updateConfigData();
+                panel2.Enabled = false;
+                string url = SetCRMUrl(txtUrl.Text, chkOnline.Checked);
+                if (url != string.Empty)
                 {
-                    Cursor.Current = Cursors.WaitCursor;
-                    updateConfigData();
-                    panel2.Enabled = false;
-                    string url = SetCRMUrl(txtUrl.Text, chkOnline.Checked);
-                    if (url != string.Empty)
+                    bl = new BL(url, txtDom.Text, txtUserName.Text, txtPass.Text, chkDefaultCredentials.Checked, log);
+                    if (bl.service != null)
                     {
-                        bl = new BL(url, txtDom.Text, txtUserName.Text, txtPass.Text, log);
-                        if (bl.service != null)
-                        {
-                            panel2.Enabled = true;
-                            this.Text = "OurCRMTool - Connected to: " + txtUrl.Text;
-                        }
-                        else {
-                            MessageBox.Show("Could not connect to the service");
-                        }
-                        Cursor.Current = Cursors.Default;
+                        panel2.Enabled = true;
+                        this.Text = "OurCRMTool - Connected to: " + txtUrl.Text;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Could not connect to the service");
+                    }
+                    Cursor.Current = Cursors.Default;
 
-                    }
-                    else {
-                        MessageBox.Show("Invalid URL");
-                        if (GetConfigParameter("Url") != txtUrl.Text)
-                        {
-                            updateConfigParameter("Url", "");
-                        }
-                    }
                 }
                 else
                 {
-                    MessageBox.Show("All the fields are mandatory");
+                    MessageBox.Show("Invalid URL");
+                    if (GetConfigParameter("Url") != txtUrl.Text)
+                    {
+                        updateConfigParameter("Url", "");
+                    }
                 }
+                //}
+                //else
+                //{
+                //    MessageBox.Show("All the fields are mandatory");
+                //}
             }
             catch (Exception ex)
             {
@@ -268,6 +296,26 @@ namespace OurCRMTool
                         updateConfigParameter("IsTargetOnline", chkIsTargetOnline.Checked.ToString());
                     }
 
+                }
+                else
+                {
+                    Configuration MyConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                    MyConfig.AppSettings.Settings["Url"].Value = txtUrl.Text;
+                    MyConfig.AppSettings.Settings["Domain"].Value = txtDom.Text;
+                    MyConfig.AppSettings.Settings["Username"].Value = txtUserName.Text;
+                    MyConfig.AppSettings.Settings["UserDefaultCredentials"].Value = chkDefaultCredentials.Checked ? "1" : "0";
+
+                    MyConfig.AppSettings.Settings["URI_Dev"].Value = txtSource.Text;
+                    MyConfig.AppSettings.Settings["Domain_Dev"].Value = txtSourceDom.Text;
+                    MyConfig.AppSettings.Settings["Username_Dev"].Value = txtSourceUserName.Text;
+                    MyConfig.AppSettings.Settings["UserDefaultCredentials_DeV"].Value = chkSourceDefaultCredentials.Checked ? "1" : "0";
+                    MyConfig.AppSettings.Settings["URI_QA"].Value = txtTarget.Text;
+                    MyConfig.AppSettings.Settings["Domain_QA"].Value = txtTargetDom.Text;
+                    MyConfig.AppSettings.Settings["Username_QA"].Value = txtTargetUserName.Text;
+                    MyConfig.AppSettings.Settings["UserDefaultCredentials_QA"].Value = chkTargetDefaultCredentials.Checked ? "1" : "0";
+
+                    MyConfig.Save(ConfigurationSaveMode.Modified);
+                    ConfigurationManager.RefreshSection("appSettings");
                 }
             }
             catch (Exception ex)
@@ -393,8 +441,18 @@ namespace OurCRMTool
 
         private void chkOnline_CheckedChanged(object sender, EventArgs e)
         {
-            txtDom.Text = string.Empty;
-            txtDom.Enabled = !(sender as CheckBox).Checked;
+            if ((sender as CheckBox).Checked)
+            {
+                txtDom.Text = string.Empty;
+                txtDom.Enabled = false;
+                chkDefaultCredentials.Checked = false;
+                chkDefaultCredentials.Enabled = false;
+            }
+            else
+            {
+                txtDom.Enabled = true;
+                chkDefaultCredentials.Enabled = true;
+            }
         }
 
         #region 2 enviroments
@@ -413,7 +471,11 @@ namespace OurCRMTool
             try
             {
                 enviroment1Url = SetCRMUrl(txtSource.Text, chkIsSourceOnline.Checked);
-                if (enviroment1Url != string.Empty && txtSourceDom.Text == string.Empty)
+                if (chkSourceDefaultCredentials.Checked)
+                {
+                    service1 = crmHelper.GetCRMService(enviroment1Url);
+                }
+                else if (enviroment1Url != string.Empty && txtSourceDom.Text == string.Empty)
                 {
                     service1 = crmHelper.GetCRMServiceOnline(txtSourceUserName.Text, txtSourcePass.Text, enviroment1Url);
                 }
@@ -437,7 +499,11 @@ namespace OurCRMTool
             try
             {
                 enviroment2Url = SetCRMUrl(txtTarget.Text, chkIsTargetOnline.Checked);
-                if (enviroment2Url != string.Empty && txtTargetDom.Text == string.Empty)
+                if (chkTargetDefaultCredentials.Checked)
+                {
+                    service2 = crmHelper.GetCRMService(enviroment1Url);
+                }
+                else if (enviroment2Url != string.Empty && txtTargetDom.Text == string.Empty)
                 {
                     service2 = crmHelper.GetCRMServiceOnline(txtTargetUserName.Text, txtTargetPass.Text, enviroment2Url);
                 }
@@ -506,13 +572,33 @@ namespace OurCRMTool
 
         private void chkIsSourceOnline_CheckedChanged(object sender, EventArgs e)
         {
-            txtSourceDom.Text = string.Empty;
-            txtSourceDom.Enabled = !(sender as CheckBox).Checked;
+            if ((sender as CheckBox).Checked)
+            {
+                txtSourceDom.Text = string.Empty;
+                txtSourceDom.Enabled = false;
+                chkSourceDefaultCredentials.Checked = false;
+                chkSourceDefaultCredentials.Enabled = false;
+            }
+            else
+            {
+                txtSourceDom.Enabled = true;
+                chkSourceDefaultCredentials.Enabled = true;
+            }
         }
         private void chkIsTargetOnline_CheckedChanged(object sender, EventArgs e)
         {
-            txtTargetDom.Text = string.Empty;
-            txtTargetDom.Enabled = !(sender as CheckBox).Checked;
+            if ((sender as CheckBox).Checked)
+            {
+                txtTargetDom.Text = string.Empty;
+                txtTargetDom.Enabled = false;
+                chkTargetDefaultCredentials.Checked = false;
+                chkTargetDefaultCredentials.Enabled = false;
+            }
+            else
+            {
+                txtTargetDom.Enabled = true;
+                chkTargetDefaultCredentials.Enabled = true;
+            }
         }
 
         #endregion
@@ -539,6 +625,27 @@ namespace OurCRMTool
         {
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
             this.lblVersion.Text = String.Format(this.lblVersion.Text, version.Major, version.Minor, version.Build, version.Revision);
+        }
+
+        private void chkDefaultCredentials_CheckedChanged(object sender, EventArgs e)
+        {
+            txtDom.Enabled = !chkDefaultCredentials.Checked;
+            txtUserName.Enabled = !chkDefaultCredentials.Checked;
+            txtPass.Enabled = !chkDefaultCredentials.Checked;
+        }
+
+        private void chkTargetDefaultCredentials_CheckedChanged(object sender, EventArgs e)
+        {
+            txtTargetDom.Enabled = !chkTargetDefaultCredentials.Checked;
+            txtTargetUserName.Enabled = !chkTargetDefaultCredentials.Checked;
+            txtTargetPass.Enabled = !chkTargetDefaultCredentials.Checked;
+        }
+
+        private void chkSourceDefaultCredentials_CheckedChanged(object sender, EventArgs e)
+        {
+            txtSourceDom.Enabled = !chkSourceDefaultCredentials.Checked;
+            txtSourceUserName.Enabled = !chkSourceDefaultCredentials.Checked;
+            txtSourcePass.Enabled = !chkSourceDefaultCredentials.Checked;
         }
     }
 }

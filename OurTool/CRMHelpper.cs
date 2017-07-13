@@ -65,6 +65,39 @@ namespace OurCRMTool
             }
         }
 
+        public IOrganizationService GetCRMService(string url)
+        {
+            try
+            {
+                OrganizationServiceProxy proxy;
+                IOrganizationService service;
+                string uri = url;
+
+                IServiceConfiguration<IOrganizationService> config = ServiceConfigurationFactory.CreateConfiguration<IOrganizationService>(new Uri(uri));
+
+                ClientCredentials credentials = new ClientCredentials();
+                credentials.Windows.ClientCredential = CredentialCache.DefaultNetworkCredentials;
+                proxy = new OrganizationServiceProxy(new Uri(uri), null, credentials, null);
+
+                proxy.EnableProxyTypes();
+                proxy.Timeout = new TimeSpan(0, 15, 0);
+
+                service = (IOrganizationService)proxy;
+
+                //check if the connection was successfull
+                WhoAmIRequest request = new WhoAmIRequest();
+                WhoAmIResponse response = (WhoAmIResponse)service.Execute(request);
+                Guid userId = response.UserId;
+
+                return service;
+            }
+            catch (Exception ex)
+            {
+                log.Error("GetCRMService: " + ex.Message);
+                return null;
+            }
+        }
+
         public IOrganizationService GetCRMServiceOnline(string UserName, string Password, string SoapOrgServiceUri)
         {
             try

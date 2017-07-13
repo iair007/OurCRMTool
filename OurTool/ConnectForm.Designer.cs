@@ -40,6 +40,7 @@
             this.lab4 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.chkDefaultCredentials = new System.Windows.Forms.CheckBox();
             this.chkOnline = new System.Windows.Forms.CheckBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.button2 = new System.Windows.Forms.Button();
@@ -55,6 +56,7 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tab = new System.Windows.Forms.TabControl();
             this.tabOneEnviroment = new System.Windows.Forms.TabPage();
+            this.lblVersion = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.tabTwoEnviroment = new System.Windows.Forms.TabPage();
             this.panel6 = new System.Windows.Forms.Panel();
@@ -62,6 +64,7 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.btnConnect = new System.Windows.Forms.Button();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.chkTargetDefaultCredentials = new System.Windows.Forms.CheckBox();
             this.chkIsTargetOnline = new System.Windows.Forms.CheckBox();
             this.label9 = new System.Windows.Forms.Label();
             this.txtTargetDom = new System.Windows.Forms.TextBox();
@@ -73,6 +76,7 @@
             this.txtTarget = new System.Windows.Forms.TextBox();
             this.txtTargetUserName = new System.Windows.Forms.TextBox();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.chkSourceDefaultCredentials = new System.Windows.Forms.CheckBox();
             this.chkIsSourceOnline = new System.Windows.Forms.CheckBox();
             this.label7 = new System.Windows.Forms.Label();
             this.txtSourceDom = new System.Windows.Forms.TextBox();
@@ -83,7 +87,6 @@
             this.txtSourcePass = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.txtSourceUserName = new System.Windows.Forms.TextBox();
-            this.lblVersion = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tab.SuspendLayout();
@@ -108,7 +111,7 @@
             // 
             this.txtUrl.Location = new System.Drawing.Point(148, 9);
             this.txtUrl.Name = "txtUrl";
-            this.txtUrl.Size = new System.Drawing.Size(662, 20);
+            this.txtUrl.Size = new System.Drawing.Size(499, 20);
             this.txtUrl.TabIndex = 1;
             // 
             // butConnectOneEnviroment
@@ -176,6 +179,7 @@
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.Control;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.chkDefaultCredentials);
             this.panel1.Controls.Add(this.chkOnline);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.lab4);
@@ -190,6 +194,17 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(827, 125);
             this.panel1.TabIndex = 9;
+            // 
+            // chkDefaultCredentials
+            // 
+            this.chkDefaultCredentials.AutoSize = true;
+            this.chkDefaultCredentials.Location = new System.Drawing.Point(658, 10);
+            this.chkDefaultCredentials.Name = "chkDefaultCredentials";
+            this.chkDefaultCredentials.Size = new System.Drawing.Size(164, 17);
+            this.chkDefaultCredentials.TabIndex = 10;
+            this.chkDefaultCredentials.Text = "User Default Credentials";
+            this.chkDefaultCredentials.UseVisualStyleBackColor = true;
+            this.chkDefaultCredentials.CheckedChanged += new System.EventHandler(this.chkDefaultCredentials_CheckedChanged);
             // 
             // chkOnline
             // 
@@ -368,6 +383,15 @@
             this.tabOneEnviroment.Text = "One Enviroment Connection";
             this.tabOneEnviroment.UseVisualStyleBackColor = true;
             // 
+            // lblVersion
+            // 
+            this.lblVersion.AutoSize = true;
+            this.lblVersion.Location = new System.Drawing.Point(715, 440);
+            this.lblVersion.Name = "lblVersion";
+            this.lblVersion.Size = new System.Drawing.Size(137, 13);
+            this.lblVersion.TabIndex = 60;
+            this.lblVersion.Text = "Version: {0}.{1}.{2}.{3}";
+            // 
             // button1
             // 
             this.button1.BackColor = System.Drawing.SystemColors.Control;
@@ -441,6 +465,7 @@
             // 
             // panel5
             // 
+            this.panel5.Controls.Add(this.chkTargetDefaultCredentials);
             this.panel5.Controls.Add(this.chkIsTargetOnline);
             this.panel5.Controls.Add(this.label9);
             this.panel5.Controls.Add(this.txtTargetDom);
@@ -456,6 +481,17 @@
             this.panel5.Size = new System.Drawing.Size(817, 135);
             this.panel5.TabIndex = 30;
             this.panel5.Tag = "";
+            // 
+            // chkTargetDefaultCredentials
+            // 
+            this.chkTargetDefaultCredentials.AutoSize = true;
+            this.chkTargetDefaultCredentials.Location = new System.Drawing.Point(650, 27);
+            this.chkTargetDefaultCredentials.Name = "chkTargetDefaultCredentials";
+            this.chkTargetDefaultCredentials.Size = new System.Drawing.Size(164, 17);
+            this.chkTargetDefaultCredentials.TabIndex = 31;
+            this.chkTargetDefaultCredentials.Text = "User Default Credentials";
+            this.chkTargetDefaultCredentials.UseVisualStyleBackColor = true;
+            this.chkTargetDefaultCredentials.CheckedChanged += new System.EventHandler(this.chkTargetDefaultCredentials_CheckedChanged);
             // 
             // chkIsTargetOnline
             // 
@@ -534,7 +570,7 @@
             // 
             this.txtTarget.Location = new System.Drawing.Point(134, 27);
             this.txtTarget.Name = "txtTarget";
-            this.txtTarget.Size = new System.Drawing.Size(680, 20);
+            this.txtTarget.Size = new System.Drawing.Size(510, 20);
             this.txtTarget.TabIndex = 10;
             // 
             // txtTargetUserName
@@ -546,6 +582,7 @@
             // 
             // panel4
             // 
+            this.panel4.Controls.Add(this.chkSourceDefaultCredentials);
             this.panel4.Controls.Add(this.chkIsSourceOnline);
             this.panel4.Controls.Add(this.label7);
             this.panel4.Controls.Add(this.txtSourceDom);
@@ -561,6 +598,17 @@
             this.panel4.Size = new System.Drawing.Size(817, 135);
             this.panel4.TabIndex = 29;
             this.panel4.Tag = "";
+            // 
+            // chkSourceDefaultCredentials
+            // 
+            this.chkSourceDefaultCredentials.AutoSize = true;
+            this.chkSourceDefaultCredentials.Location = new System.Drawing.Point(650, 24);
+            this.chkSourceDefaultCredentials.Name = "chkSourceDefaultCredentials";
+            this.chkSourceDefaultCredentials.Size = new System.Drawing.Size(164, 17);
+            this.chkSourceDefaultCredentials.TabIndex = 30;
+            this.chkSourceDefaultCredentials.Text = "User Default Credentials";
+            this.chkSourceDefaultCredentials.UseVisualStyleBackColor = true;
+            this.chkSourceDefaultCredentials.CheckedChanged += new System.EventHandler(this.chkSourceDefaultCredentials_CheckedChanged);
             // 
             // chkIsSourceOnline
             // 
@@ -604,7 +652,7 @@
             // 
             this.txtSource.Location = new System.Drawing.Point(134, 22);
             this.txtSource.Name = "txtSource";
-            this.txtSource.Size = new System.Drawing.Size(680, 20);
+            this.txtSource.Size = new System.Drawing.Size(510, 20);
             this.txtSource.TabIndex = 9;
             // 
             // label5
@@ -648,15 +696,6 @@
             this.txtSourceUserName.Name = "txtSourceUserName";
             this.txtSourceUserName.Size = new System.Drawing.Size(172, 20);
             this.txtSourceUserName.TabIndex = 24;
-            // 
-            // lblVersion
-            // 
-            this.lblVersion.AutoSize = true;
-            this.lblVersion.Location = new System.Drawing.Point(715, 440);
-            this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new System.Drawing.Size(137, 13);
-            this.lblVersion.TabIndex = 60;
-            this.lblVersion.Text = "Version: {0}.{1}.{2}.{3}";
             // 
             // ConnectForm
             // 
@@ -745,6 +784,9 @@
         private System.Windows.Forms.Button butChangeRecordStatus;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label lblVersion;
+        private System.Windows.Forms.CheckBox chkDefaultCredentials;
+        private System.Windows.Forms.CheckBox chkTargetDefaultCredentials;
+        private System.Windows.Forms.CheckBox chkSourceDefaultCredentials;
     }
 }
 
