@@ -159,6 +159,7 @@ namespace OurCRMTool
             {
                 bool closeFormWhenFinish = true;
                 string message = string.Empty;
+                List<EntityReference> recordsToOpen = new List<EntityReference>();
                 if (ValidateCopyCreate())
                 {
                     Cursor.Current = Cursors.WaitCursor;
@@ -166,23 +167,36 @@ namespace OurCRMTool
                     if (recordsToCreate.Count() > 0)
                     {
                         EntityCollection records = bl.GetAllColumnsForRecords(from1To2, entityName, recordsToCreate, selectList);
-                        message += bl.CreateRecordInEnviroment(true, records, entityName, ref closeFormWhenFinish);
+                        message += bl.CreateRecordInEnviroment(from1To2, records, entityName, ref closeFormWhenFinish, ref recordsToOpen);
                     }
 
                     if (recordsToUpdate.Count() > 0)
                     {
                         recordsToUpdate = bl.GetAllRecordsToUpdate(from1To2, entityName, recordsToUpdate, selectList);
-                        message += bl.UpdateRecordInEnviroment(from1To2, recordsToUpdate, entityName, selectList, ref closeFormWhenFinish);
+                        message += bl.UpdateRecordInEnviroment(from1To2, recordsToUpdate, entityName, selectList, ref closeFormWhenFinish, ref recordsToOpen);
                     }
 
                     if (recordsToCreate.Count() == 0 && recordsToUpdate.Count() == 0)
                     {
-                        message = "No record Selected";
+                        message = "No field Selected";
                     }
 
                     Cursor.Current = Cursors.Default;
-                    MessageBox.Show(message);
-
+                    if (recordsToOpen.Count() > 0)
+                    {
+                        message += Environment.NewLine + "Do you want to open the records in Target";
+                        DialogResult result = MessageBox.Show(message, "Open Records in Target", MessageBoxButtons.YesNo);
+                        if (result == DialogResult.Yes)
+                        {
+                            foreach (EntityReference rec in recordsToOpen)
+                            {
+                                bl.OpenWithArguments(rec.Id.ToString(), rec.LogicalName, !from1To2);
+                            }
+                        }
+                    }
+                    else {
+                        MessageBox.Show(message);
+                    }
                     if (closeFormWhenFinish)
                     {
                         this.Close();

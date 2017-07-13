@@ -254,7 +254,7 @@ namespace OurCRMTool
         }
 
 
-        public string UpdateRecordInEnviroment(bool fromEnviroment1To2, Dictionary<Guid, Entity> recordsToUpdate, string entityName, Dictionary<string, string> selectFields, ref bool closeFormWhenFinish)
+        public string UpdateRecordInEnviroment(bool fromEnviroment1To2, Dictionary<Guid, Entity> recordsToUpdate, string entityName, Dictionary<string, string> selectFields, ref bool closeFormWhenFinish, ref List<EntityReference> recordsToOpen)
         {
             string message = string.Empty;
             int maxBatchSize = 1000;
@@ -320,6 +320,13 @@ namespace OurCRMTool
                             }
                         }
                     }
+                    else {
+                        foreach (KeyValuePair<Guid, Entity> re in recordsToUpdate)
+                        {
+                            EntityReference rec = new EntityReference(entityName, re.Key);
+                            recordsToOpen.Add(rec);
+                        }
+                    }
                     requestWithResults.Requests.Clear();
                 }
             }
@@ -329,7 +336,7 @@ namespace OurCRMTool
             return message;
         }
 
-        public string CreateRecordInEnviroment(bool inEnviroment2, EntityCollection recordsCol, string entityName, ref bool closeFormWhenFinish)
+        public string CreateRecordInEnviroment(bool inEnviroment2, EntityCollection recordsCol, string entityName, ref bool closeFormWhenFinish, ref List<EntityReference> recordsToOpen)
         {
             string message = string.Empty;
             int maxBatchSize = 1000;
@@ -369,6 +376,13 @@ namespace OurCRMTool
                                 WriteTxtLog("Error when creating record: " + responseWithResults.Responses[i].RequestIndex + " Error: " + responseWithResults.Responses[i].Fault.Message, log);
                                 message += "Error when creating record: " + responseWithResults.Responses[i].RequestIndex + " Error: " + responseWithResults.Responses[i].Fault.Message + Environment.NewLine;
                             }
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < responseWithResults.Responses.Count; i++)
+                        {
+                            recordsToOpen.Add(new EntityReference(entityName, new Guid(responseWithResults.Responses[i].Response["id"].ToString())));
                         }
                     }
                     requestWithResults.Requests.Clear();
