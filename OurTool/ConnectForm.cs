@@ -272,6 +272,10 @@ namespace OurCRMTool
                     {
                         updateConfigParameter("IsOnline", chkOnline.Checked.ToString());
                     }
+                    if (GetConfigParameter("UserDefaultCredentials").ToLower() != chkDefaultCredentials.Checked.ToString().ToLower())
+                    {
+                        updateConfigParameter("UserDefaultCredentials", chkDefaultCredentials.Checked.ToString());
+                    }
 
                     //Source
                     if (txtSource.Text != string.Empty && GetConfigParameter("URI_source") != txtSource.Text)
@@ -289,6 +293,10 @@ namespace OurCRMTool
                     if (GetConfigParameter("IsSourceOnline").ToLower() != chkIsSourceOnline.Checked.ToString().ToLower())
                     {
                         updateConfigParameter("IsSourceOnline", chkIsSourceOnline.Checked.ToString());
+                    }
+                    if (GetConfigParameter("UserDefaultCredentialsSource").ToLower() != chkSourceDefaultCredentials.Checked.ToString().ToLower())
+                    {
+                        updateConfigParameter("UserDefaultCredentialsSource", chkSourceDefaultCredentials.Checked.ToString());
                     }
 
 
@@ -308,6 +316,10 @@ namespace OurCRMTool
                     if (GetConfigParameter("IsTargetOnline").ToLower() != chkIsTargetOnline.Checked.ToString().ToLower())
                     {
                         updateConfigParameter("IsTargetOnline", chkIsTargetOnline.Checked.ToString());
+                    }
+                    if (GetConfigParameter("UseDefaultCredentialsTarget").ToLower() != chkTargetDefaultCredentials.Checked.ToString().ToLower())
+                    {
+                        updateConfigParameter("UseDefaultCredentialsTarget", chkTargetDefaultCredentials.Checked.ToString());
                     }
 
                 }

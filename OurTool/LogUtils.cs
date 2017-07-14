@@ -23,8 +23,8 @@ namespace OurCRMTool
             {
                 if (_logPath == null)
                 {
-                    string runningPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
-                    _logPath = runningPath + "\\Logs";
+                    // string runningPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
+                    _logPath = "C:\\temp\\OurCRMToolLog2"; //runningPath + "\\Logs";
                 }
                 return _logPath;
             }
