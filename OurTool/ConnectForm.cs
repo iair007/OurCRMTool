@@ -100,6 +100,11 @@ namespace OurCRMTool
                 {
                     chkOnline.Checked = true;
                 }
+                string userDefaultCredentials = GetConfigParameter("UserDefaultCredentials").ToLower();
+                if (userDefaultCredentials != string.Empty && userDefaultCredentials != "false")
+                {
+                    chkDefaultCredentials.Checked = true;
+                }
 
                 string uRI_source = GetConfigParameter("URI_source");
                 if (uRI_source != string.Empty)
@@ -121,7 +126,11 @@ namespace OurCRMTool
                 {
                     chkIsSourceOnline.Checked = true;
                 }
-
+                string userDefaultCredentialsSource = GetConfigParameter("UserDefaultCredentialsSource").ToLower();
+                if (userDefaultCredentialsSource != string.Empty && userDefaultCredentialsSource != "false")
+                {
+                    chkSourceDefaultCredentials.Checked = true;
+                }
 
                 string uRI_target = GetConfigParameter("URI_target");
                 if (uRI_target != string.Empty)
@@ -142,6 +151,11 @@ namespace OurCRMTool
                 if (isTargetOnline != string.Empty && isTargetOnline != "false")
                 {
                     chkIsTargetOnline.Checked = true;
+                }
+                string useDefaultCredentialsTarget = GetConfigParameter("UseDefaultCredentialsTarget").ToLower();
+                if (useDefaultCredentialsTarget != string.Empty && useDefaultCredentialsTarget != "false")
+                {
+                    chkTargetDefaultCredentials.Checked = true;
                 }
             }
             else
