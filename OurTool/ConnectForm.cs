@@ -48,18 +48,22 @@ namespace OurCRMTool
         {
             get
             {
-                if (_connectionConfig == null)
+                //if (_connectionConfig == null)
+                // {
+                if (File.Exists(ConnectionConfigPath))
                 {
-                    if (File.Exists(ConnectionConfigPath))
-                    {
-                        _connectionConfig = File.ReadAllText(ConnectionConfigPath).Replace("\r\n", "").Split(',');
-                    }
-                    else
-                    {
-                        //      log.Error("Cant find file: " + ConnectionConfigPath);
-                    }
+                    _connectionConfig = File.ReadAllText(ConnectionConfigPath).Replace("\r\n", "").Split(',');
                 }
+                else
+                {
+                    //      log.Error("Cant find file: " + ConnectionConfigPath);
+                }
+                //}
                 return _connectionConfig;
+            }
+            set {
+
+
             }
         }
 
@@ -223,18 +227,18 @@ namespace OurCRMTool
 
         private void updateConfigParameter(string parameterName, string parameterValue)
         {
-
+            string[] aux = ConnectionConfig;
             for (int i = 0; i < ConnectionConfig.Length; i++)
             {
                 if (ConnectionConfig[i].StartsWith(parameterName))
                 {
                     string[] parameter = ConnectionConfig[i].Split(';');
                     parameter[1] = parameterValue;
-                    ConnectionConfig[i] = string.Join(";", parameter);
+                    aux[i] = string.Join(";", parameter);
                     break;
                 }
             }
-            File.WriteAllText(ConnectionConfigPath, string.Join(",", ConnectionConfig));
+            File.WriteAllText(ConnectionConfigPath, string.Join(",", aux));
 
         }
         private string GetConfigParameter(string parameterName)
@@ -247,6 +251,8 @@ namespace OurCRMTool
                     return parameter[1];
                 }
             }
+            //missing Parameter in connectionConfig, so add it:
+            File.AppendAllText(ConnectionConfigPath, parameterName + ";," + Environment.NewLine);
             return string.Empty;
         }
         private void updateConfigData()
