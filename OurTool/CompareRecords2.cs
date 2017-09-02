@@ -34,6 +34,7 @@ namespace OurCRMTool
         string top = "";
         BackgroundWorker worker1 = new BackgroundWorker();
         BackgroundWorker worker2 = new BackgroundWorker();
+        bool isActivty;
 
         List<Guid> recordsToCreate = new List<Guid>();
         Dictionary<Guid, Entity> recordsToUpdate = new Dictionary<Guid, Entity>();
@@ -45,7 +46,8 @@ namespace OurCRMTool
 
         #region Contructor
 
-        public CompareRecords2(BL2Enviroments _bl, log4net.ILog _log, string _entityName, DataTable _dtFields, Dictionary<string, string> _compareFieldsList, Dictionary<string, string> _selectFields, Dictionary<string, string> _recordKeyList, string _orderby, OrderType _direcction, string _top = "")
+        public CompareRecords2(BL2Enviroments _bl, log4net.ILog _log, string _entityName, bool _isActivity, DataTable _dtFields, Dictionary<string, string> _compareFieldsList,
+            Dictionary<string, string> _selectFields, Dictionary<string, string> _recordKeyList, string _orderby, OrderType _direcction, string _top = "")
         {
             InitializeComponent();
             this.Cursor = Cursors.WaitCursor;
@@ -53,6 +55,7 @@ namespace OurCRMTool
             bl = _bl;
             log = _log;
             dtFields = _dtFields;
+            isActivty = _isActivity;
             lbEnviroment1.Text = bl.url1;
             lbEnviroment2.Text = bl.url2;
             lbEnviroment1b.Text = bl.url1;
@@ -881,6 +884,11 @@ namespace OurCRMTool
         }
         #endregion
 
+        /// <summary>
+        /// this helps to show the checked box when user click inside the checkbox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void grid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             DataGridView senderGridView = (sender as DataGridView);
@@ -1043,7 +1051,7 @@ namespace OurCRMTool
 
                 if (recordsToCreate.Count() > 0 || recordsToUpdate.Count() > 0)
                 {
-                    CompareRecords_SelectFieldsToCopy form = new CompareRecords_SelectFieldsToCopy(bl, true, entityName, dtFields, recordsToCreate, recordsToUpdate, log);
+                    CompareRecords_SelectFieldsToCopy form = new CompareRecords_SelectFieldsToCopy(bl, true, entityName,isActivty ,dtFields, recordsToCreate, recordsToUpdate, log);
                     form.ShowDialog();
                 }
                 else
@@ -1065,7 +1073,7 @@ namespace OurCRMTool
 
             if (recordsToCreate.Count() > 0 || recordsToUpdate.Count() > 0)
             {
-                CompareRecords_SelectFieldsToCopy form = new CompareRecords_SelectFieldsToCopy(bl, false, entityName, dtFields, recordsToCreate, recordsToUpdate, log);
+                CompareRecords_SelectFieldsToCopy form = new CompareRecords_SelectFieldsToCopy(bl, false, entityName,isActivty, dtFields, recordsToCreate, recordsToUpdate, log);
                 form.ShowDialog();
             }
             else
@@ -1117,6 +1125,7 @@ namespace OurCRMTool
                 }
             }
         }
+
 
     }
 }

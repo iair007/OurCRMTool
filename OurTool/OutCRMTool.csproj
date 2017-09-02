@@ -138,6 +138,18 @@
     <Compile Include="CompareRecords2.Designer.cs">
       <DependentUpon>CompareRecords2.cs</DependentUpon>
     </Compile>
+    <Compile Include="CompareUsersPrivAndTeam.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CompareUsersPrivAndTeam.Designer.cs">
+      <DependentUpon>CompareUsersPrivAndTeam.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CompareUsersPrivAndTeam2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CompareUsersPrivAndTeam2.Designer.cs">
+      <DependentUpon>CompareUsersPrivAndTeam2.cs</DependentUpon>
+    </Compile>
     <Compile Include="CRMHelpper.cs" />
     <Compile Include="Error.cs">
       <SubType>Form</SubType>
@@ -274,6 +286,9 @@
     <EmbeddedResource Include="CompareRecords2.resx">
       <DependentUpon>CompareRecords2.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CompareUsersPrivAndTeam2.resx">
+      <DependentUpon>CompareUsersPrivAndTeam2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Error.resx">
       <DependentUpon>Error.cs</DependentUpon>
     </EmbeddedResource>
@@ -373,6 +388,7 @@
     <Content Include="Resources\loading5.gif" />
     <Content Include="Resources\loading6.gif" />
     <Content Include="Resources\loading7.gif" />
+    <None Include="Resources\loadingIcon.ico" />
     <Content Include="Resources\None.gif" />
     <Content Include="Resources\Organization.gif" />
     <Content Include="Resources\Parent.gif" />

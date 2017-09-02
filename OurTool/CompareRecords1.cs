@@ -26,6 +26,7 @@ namespace OurCRMTool
         private BL2Enviroments bl;
         log4net.ILog log;
         string primatyField;
+        bool isActivity = false;
 
         #region Contructor
 
@@ -38,6 +39,7 @@ namespace OurCRMTool
             CreatedtdtEntitiesColumns();
             CreatedtdtFieldsColumns();
             txtEntityFilter.Select();
+            Cursor.Current = Cursors.Default;
 
             worker = new BackgroundWorker();
             worker.WorkerReportsProgress = true;
@@ -83,6 +85,7 @@ namespace OurCRMTool
             dtEntities.Columns.Add("EntityName", typeof(string));
             dtEntities.Columns.Add("ObjectTypeCode", typeof(string));
             dtEntities.Columns.Add("EntityLogicalName", typeof(string));
+            dtEntities.Columns.Add("IsActivity", typeof(bool));
         }
 
         private void SetGridEntitiesProperties()
@@ -105,6 +108,10 @@ namespace OurCRMTool
             gridEntities.Columns["EntityLogicalName"].ReadOnly = true;
             gridEntities.Columns["EntityLogicalName"].Visible = false;
 
+            gridEntities.Columns["IsActivity"].HeaderText = "Is Activity";
+            gridEntities.Columns["IsActivity"].ReadOnly = true;
+            gridEntities.Columns["IsActivity"].Visible = false;
+
             gridEntities.Sort(gridEntities.Columns["EntityName"], ListSortDirection.Ascending);
         }
 
@@ -116,6 +123,8 @@ namespace OurCRMTool
             dtFields.Columns.Add("CheckRecordKey", typeof(bool));
             dtFields.Columns.Add("CheckCompare", typeof(bool));
             dtFields.Columns.Add("CheckSelect", typeof(bool));
+            dtFields.Columns.Add("isValidForUpdate", typeof(bool));
+            dtFields.Columns.Add("IsValidForCreate", typeof(bool));
         }
 
         private void SetGridFieldsProperties()
@@ -145,6 +154,15 @@ namespace OurCRMTool
             gridFieldsToCheck.Columns["CheckSelect"].Width = 50;
             gridFieldsToCheck.Columns["CheckSelect"].HeaderText = "Select";
             gridFieldsToCheck.Columns["CheckSelect"].ReadOnly = false;
+
+            gridFieldsToCheck.Columns["isValidForUpdate"].HeaderText = "Is Valid For Update";
+            gridFieldsToCheck.Columns["isValidForUpdate"].ReadOnly = true;
+            gridFieldsToCheck.Columns["isValidForUpdate"].Visible = false;
+
+            gridFieldsToCheck.Columns["IsValidForCreate"].HeaderText = "Is Valid For Update";
+            gridFieldsToCheck.Columns["IsValidForCreate"].ReadOnly = true;
+            gridFieldsToCheck.Columns["IsValidForCreate"].Visible = false;
+            
         }
 
         #endregion table
@@ -165,7 +183,7 @@ namespace OurCRMTool
                 {
                     if (currentEntity.DisplayName != null && currentEntity.DisplayName.UserLocalizedLabel != null)
                     {
-                        dtEntities.Rows.Add(false, currentEntity.DisplayName.UserLocalizedLabel.Label, (int)currentEntity.ObjectTypeCode, currentEntity.LogicalName);
+                        dtEntities.Rows.Add(false, currentEntity.DisplayName.UserLocalizedLabel.Label, (int)currentEntity.ObjectTypeCode, currentEntity.LogicalName, currentEntity.IsActivity);
                     }
                 }
                 return string.Empty;
@@ -186,7 +204,7 @@ namespace OurCRMTool
             {
                 if (a.DisplayName != null && a.DisplayName.LocalizedLabels.Count > 0)
                 {
-                    dtFields.Rows.Add(a.AttributeType, a.LogicalName, a.DisplayName.UserLocalizedLabel.Label, false, false, false);
+                    dtFields.Rows.Add(a.AttributeType, a.LogicalName, a.DisplayName.UserLocalizedLabel.Label, false, false, false, a.IsValidForUpdate, a.IsValidForCreate);
                     if (a.IsPrimaryName == true)
                     {
                         primatyField = a.LogicalName;
@@ -231,7 +249,7 @@ namespace OurCRMTool
 
         private void butGetFields_Click(object sender, EventArgs e)
         {
-            string entityName = GetEntitySelected();
+            string entityName = GetEntitySelected(ref isActivity);
             if (entityName != string.Empty)
             {
                 this.Cursor = Cursors.WaitCursor;
@@ -240,6 +258,7 @@ namespace OurCRMTool
                 SetComboOrderBy();
                 SetComboDirecction();
                 txtFieldFilter.Select();
+               // gridFieldsToCheck.Focus();
             }
             else
             {
@@ -294,7 +313,7 @@ namespace OurCRMTool
         {
             string message = string.Empty;
 
-            if (GetEntitySelected() == string.Empty)
+            if (GetEntitySelected(ref isActivity) == string.Empty)
             {
                 message = "Entity no selected";
             }
@@ -317,7 +336,7 @@ namespace OurCRMTool
             return message == string.Empty;
         }
 
-        private string GetEntitySelected()
+        private string GetEntitySelected(ref bool isActivity)
         {
             string entitySelected = string.Empty;
             foreach (DataRow r in dtEntities.Rows)
@@ -325,6 +344,7 @@ namespace OurCRMTool
                 if ((bool)r["Check"] == true)
                 {
                     entitySelected = r["EntityLogicalName"].ToString();
+                    isActivity = (bool)r["IsActivity"];
                     break;
                 }
             }
@@ -396,7 +416,9 @@ namespace OurCRMTool
                 {
                     SetCompareAndSelectList();
                     OrderType direcction = comboDirecction.SelectedIndex == 0 ? OrderType.Ascending : OrderType.Descending;
-                    CompareRecords2 comapreForm = new CompareRecords2(bl, log, GetEntitySelected(), dtFields, compareList, selectList, recordKeyList, comboOrderBy.SelectedItem.ToString(), direcction, txtTop.Text);
+                    isActivity = false;
+                    string entityNameSelected = GetEntitySelected(ref isActivity);
+                    CompareRecords2 comapreForm = new CompareRecords2(bl, log, entityNameSelected, isActivity, dtFields.Copy(), compareList, selectList, recordKeyList, comboOrderBy.SelectedItem.ToString(), direcction, txtTop.Text);
                     comapreForm.ShowDialog();
                 }
             }

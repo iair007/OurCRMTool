@@ -167,7 +167,7 @@ namespace OurCRMTool
         /// <param name="entityName"></param>
         /// <param name="rows"></param>
         /// <returns></returns>
-        public EntityCollection GetAllColumnsForRecords(bool fromService1, string entityName, List<Guid> recordsGuids, Dictionary<string, string> selectFields)
+        public EntityCollection GetAllColumnsForRecords(bool fromService1, string entityName, bool isActivity, List<Guid> recordsGuids, Dictionary<string, string> selectFields)
         {
             EntityCollection allRecords = new EntityCollection();
             if (selectFields != null && selectFields.Count() > 0)
@@ -184,7 +184,14 @@ namespace OurCRMTool
 
                 QueryExpression query = new QueryExpression(entityName);
                 query.ColumnSet = columns;
-                query.Criteria.AddCondition(new ConditionExpression(entityName + "id", ConditionOperator.In, recordsGuids));
+                if (isActivity)
+                {
+                    query.Criteria.AddCondition(new ConditionExpression("activityid", ConditionOperator.In, recordsGuids));
+                }
+                else
+                {
+                    query.Criteria.AddCondition(new ConditionExpression(entityName + "id", ConditionOperator.In, recordsGuids));
+                }
                 query.PageInfo = new PagingInfo();
                 query.PageInfo.PageNumber = pageNumber;
                 query.PageInfo.PagingCookie = null;

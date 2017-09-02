@@ -17,26 +17,27 @@ namespace OurCRMTool
     public partial class CompareRecords_SelectFieldsToCopy : Form
     {
         public DataTable dtFields = new DataTable();
-        private RetrieveAllEntitiesResponse response;
         Dictionary<string, string> selectList = new Dictionary<string, string>();  //LocigalName, Type
         private BL2Enviroments bl;
         log4net.ILog log;
-        string primatyField;
         string entityName;
         List<Guid> recordsToCreate = new List<Guid>();
         bool from1To2;
+        bool isAvtivity;
         Dictionary<Guid, Entity> recordsToUpdate = new Dictionary<Guid, Entity>();   //Entity = is the record that want to copy TO the other environment, Guid is the guis of the record to update
 
         #region Contructor
 
-        public CompareRecords_SelectFieldsToCopy(BL2Enviroments _bl, bool _From1To2, string _entityName, DataTable _dtFields, List<Guid> _recordsToCreate, Dictionary<Guid, Entity> _recordsToUpdate, log4net.ILog _log)
+        public CompareRecords_SelectFieldsToCopy(BL2Enviroments _bl, bool _From1To2, string _entityName, bool _isAvtivity, DataTable _dtFields, List<Guid> _recordsToCreate, Dictionary<Guid, Entity> _recordsToUpdate, log4net.ILog _log)
         {
             InitializeComponent();
             log = _log;
             bl = _bl;
             lblEntity.Text = lblEntity.Text + " " + _entityName;
             entityName = _entityName;
-            dtFields = _dtFields.Copy();
+            isAvtivity = _isAvtivity;
+            dtFields = _dtFields;
+            setFiledsValidToUpdate();  //will remove fields that cannot be update/created
             recordsToCreate = _recordsToCreate;
             recordsToUpdate = _recordsToUpdate;
             from1To2 = _From1To2;  //set dirrection from enviroment 1 to 2 or the opposite
@@ -67,6 +68,13 @@ namespace OurCRMTool
             gridFieldsToCheck.Columns["CheckSelect"].HeaderText = "Select";
             gridFieldsToCheck.Columns["CheckSelect"].ReadOnly = false;
 
+            gridFieldsToCheck.Columns["isValidForUpdate"].HeaderText = "is valid for update";
+            gridFieldsToCheck.Columns["isValidForUpdate"].ReadOnly = true;
+            gridFieldsToCheck.Columns["isValidForUpdate"].Visible = false;
+
+            gridFieldsToCheck.Columns["IsValidForCreate"].HeaderText = "is valid for Create";
+            gridFieldsToCheck.Columns["IsValidForCreate"].ReadOnly = true;
+            gridFieldsToCheck.Columns["IsValidForCreate"].Visible = false;
         }
 
         #endregion table
@@ -87,34 +95,19 @@ namespace OurCRMTool
             SetGridFieldsProperties();
         }
 
-        #endregion
-
-        /// <summary>
-        /// If the row was already selected, will make it false, if it was not, will make sure is the only row selected
-        /// </summary>
-        /// <param name="grid"></param>
-        /// <param name="row"></param>
-        private void MakeOnlyOneSelection(DataGridView grid, DataGridViewRow row)
+        private void setFiledsValidToUpdate()
         {
-            if ((bool)row.Cells[0].Value == true)
+            for (int i = dtFields.Rows.Count - 1; i >= 0; i--)
             {
-                row.Cells[0].Value = false;
-            }
-            else
-            {
-                foreach (DataGridViewRow r in grid.Rows)
+                DataRow r = dtFields.Rows[i];
+                if ((bool)r["isValidForUpdate"] == false)
                 {
-                    if (r.Equals(row))
-                    {
-                        r.Cells[0].Value = true;
-                    }
-                    else
-                    {
-                        r.Cells[0].Value = false;
-                    }
+                    r.Delete();
                 }
             }
         }
+
+        #endregion
 
         private bool ValidateCopyCreate()
         {
@@ -163,15 +156,17 @@ namespace OurCRMTool
                 if (ValidateCopyCreate())
                 {
                     Cursor.Current = Cursors.WaitCursor;
-                    SetSelectList();
+
                     if (recordsToCreate.Count() > 0)
                     {
-                        EntityCollection records = bl.GetAllColumnsForRecords(from1To2, entityName, recordsToCreate, selectList);
+                        SetSelectList(true);
+                        EntityCollection records = bl.GetAllColumnsForRecords(from1To2, entityName, isAvtivity, recordsToCreate, selectList);
                         message += bl.CreateRecordInEnviroment(from1To2, records, entityName, ref closeFormWhenFinish, ref recordsToOpen);
                     }
 
                     if (recordsToUpdate.Count() > 0)
                     {
+                        SetSelectList(false);
                         recordsToUpdate = bl.GetAllRecordsToUpdate(from1To2, entityName, recordsToUpdate, selectList);
                         message += bl.UpdateRecordInEnviroment(from1To2, recordsToUpdate, entityName, selectList, ref closeFormWhenFinish, ref recordsToOpen);
                     }
@@ -194,7 +189,8 @@ namespace OurCRMTool
                             }
                         }
                     }
-                    else {
+                    else
+                    {
                         MessageBox.Show(message);
                     }
                     if (closeFormWhenFinish)
@@ -214,17 +210,25 @@ namespace OurCRMTool
             }
         }
 
-        private void SetSelectList()
+        /// <summary>
+        /// if is creating will set the selectedList only the checked fields that are allowed to create
+        /// if is not creating is updating
+        /// </summary>
+        /// <param name="creating"></param>
+        private void SetSelectList(bool creating)
         {
             selectList.Clear();
             foreach (DataGridViewRow r in gridFieldsToCheck.Rows)
             {
-                if (r.Cells["CheckSelect"].Value != null && (bool)r.Cells["CheckSelect"].Value == true)
+                if (((creating == true && (bool)r.Cells["IsValidForCreate"].Value)
+                    || (creating == false && (bool)r.Cells["isValidForUpdate"].Value)
+                    ) && r.Cells["CheckSelect"].Value != null && (bool)r.Cells["CheckSelect"].Value == true)
                 {
                     selectList.Add(r.Cells["LocigalName"].Value.ToString(), r.Cells["Type"].Value.ToString());
                 }
             }
         }
+
         #region Filters
 
         private void txtFieldFilter_TextChanged(object sender, EventArgs e)

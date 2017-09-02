@@ -74,6 +74,7 @@ namespace OurCRMTool
             SetAccessRightGrid();
             Cursor.Current = Cursors.Default;
             txtEntityFilter.Focus();
+            Cursor.Current = Cursors.Default;
         }
 
         private void CreatedtUsersWithPrivColumns()

@@ -43,6 +43,7 @@
             this.chkDefaultCredentials = new System.Windows.Forms.CheckBox();
             this.chkOnline = new System.Windows.Forms.CheckBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.butCompareUsersPrvAndTeam = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.butChangeRecordStatus = new System.Windows.Forms.Button();
             this.buChangeAttendees = new System.Windows.Forms.Button();
@@ -198,6 +199,8 @@
             // chkDefaultCredentials
             // 
             this.chkDefaultCredentials.AutoSize = true;
+            this.chkDefaultCredentials.Checked = true;
+            this.chkDefaultCredentials.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkDefaultCredentials.Location = new System.Drawing.Point(658, 10);
             this.chkDefaultCredentials.Name = "chkDefaultCredentials";
             this.chkDefaultCredentials.Size = new System.Drawing.Size(164, 17);
@@ -219,6 +222,7 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.butCompareUsersPrvAndTeam);
             this.panel2.Controls.Add(this.button2);
             this.panel2.Controls.Add(this.butChangeRecordStatus);
             this.panel2.Controls.Add(this.buChangeAttendees);
@@ -232,8 +236,20 @@
             this.panel2.Enabled = false;
             this.panel2.Location = new System.Drawing.Point(7, 137);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(827, 149);
+            this.panel2.Size = new System.Drawing.Size(827, 166);
             this.panel2.TabIndex = 11;
+            // 
+            // butCompareUsersPrvAndTeam
+            // 
+            this.butCompareUsersPrvAndTeam.BackColor = System.Drawing.SystemColors.Control;
+            this.butCompareUsersPrvAndTeam.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
+            this.butCompareUsersPrvAndTeam.Location = new System.Drawing.Point(295, 131);
+            this.butCompareUsersPrvAndTeam.Name = "butCompareUsersPrvAndTeam";
+            this.butCompareUsersPrvAndTeam.Size = new System.Drawing.Size(222, 23);
+            this.butCompareUsersPrvAndTeam.TabIndex = 66;
+            this.butCompareUsersPrvAndTeam.Text = "Compare User\'s Teams and Privilege Roles";
+            this.butCompareUsersPrvAndTeam.UseVisualStyleBackColor = false;
+            this.butCompareUsersPrvAndTeam.Click += new System.EventHandler(this.butCompareUsersPrvAndTeam_Click);
             // 
             // button2
             // 
@@ -397,7 +413,7 @@
             this.button1.BackColor = System.Drawing.SystemColors.Control;
             this.button1.Enabled = false;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.button1.Location = new System.Drawing.Point(7, 292);
+            this.button1.Location = new System.Drawing.Point(7, 326);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(195, 23);
             this.button1.TabIndex = 59;
@@ -485,6 +501,8 @@
             // chkTargetDefaultCredentials
             // 
             this.chkTargetDefaultCredentials.AutoSize = true;
+            this.chkTargetDefaultCredentials.Checked = true;
+            this.chkTargetDefaultCredentials.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkTargetDefaultCredentials.Location = new System.Drawing.Point(650, 27);
             this.chkTargetDefaultCredentials.Name = "chkTargetDefaultCredentials";
             this.chkTargetDefaultCredentials.Size = new System.Drawing.Size(164, 17);
@@ -602,6 +620,8 @@
             // chkSourceDefaultCredentials
             // 
             this.chkSourceDefaultCredentials.AutoSize = true;
+            this.chkSourceDefaultCredentials.Checked = true;
+            this.chkSourceDefaultCredentials.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkSourceDefaultCredentials.Location = new System.Drawing.Point(650, 24);
             this.chkSourceDefaultCredentials.Name = "chkSourceDefaultCredentials";
             this.chkSourceDefaultCredentials.Size = new System.Drawing.Size(164, 17);
@@ -787,6 +807,7 @@
         private System.Windows.Forms.CheckBox chkDefaultCredentials;
         private System.Windows.Forms.CheckBox chkTargetDefaultCredentials;
         private System.Windows.Forms.CheckBox chkSourceDefaultCredentials;
+        private System.Windows.Forms.Button butCompareUsersPrvAndTeam;
     }
 }
 

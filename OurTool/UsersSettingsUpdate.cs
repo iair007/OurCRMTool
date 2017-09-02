@@ -35,6 +35,7 @@ namespace OurCRMTool
             this.Text = "Users Settings Update - Connected to: " + bl.url;
             CreatedtUsersColumns();
             SetBusinessUnits();
+            Cursor.Current = Cursors.Default;
         }
 
         private void CreatedtUsersColumns()

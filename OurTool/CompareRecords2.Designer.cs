@@ -149,6 +149,7 @@
             this.gridEnviroment2.Size = new System.Drawing.Size(534, 369);
             this.gridEnviroment2.TabIndex = 66;
             this.gridEnviroment2.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridEnviroment2_CellClick);
+            this.gridEnviroment2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellContentClick);
             this.gridEnviroment2.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellDoubleClick2);
             this.gridEnviroment2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.gridEnviroment2_Scroll);
             this.gridEnviroment2.SelectionChanged += new System.EventHandler(this.gridEnviroment2_SelectionChanged);
@@ -235,6 +236,7 @@
             this.gridEnviroment1.Size = new System.Drawing.Size(534, 369);
             this.gridEnviroment1.TabIndex = 65;
             this.gridEnviroment1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridEnviroment1_CellClick);
+            this.gridEnviroment1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellContentClick);
             this.gridEnviroment1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellDoubleClick1);
             this.gridEnviroment1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.gridEnviroment1_Scroll);
             this.gridEnviroment1.SelectionChanged += new System.EventHandler(this.gridEnviroment1_SelectionChanged);
@@ -288,6 +290,7 @@
             this.gridDiff2.Size = new System.Drawing.Size(534, 422);
             this.gridDiff2.TabIndex = 68;
             this.gridDiff2.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridDiff2_CellClick);
+            this.gridDiff2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellContentClick);
             this.gridDiff2.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellDoubleClick2);
             this.gridDiff2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.gridDiff2_Scroll);
             this.gridDiff2.SelectionChanged += new System.EventHandler(this.gridDiff2_SelectionChanged);
@@ -307,6 +310,7 @@
             this.gridDiff1.Size = new System.Drawing.Size(534, 422);
             this.gridDiff1.TabIndex = 67;
             this.gridDiff1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridDiff1_CellClick);
+            this.gridDiff1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellContentClick);
             this.gridDiff1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellDoubleClick1);
             this.gridDiff1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.gridDiff1_Scroll);
             this.gridDiff1.SelectionChanged += new System.EventHandler(this.gridDiff2_SelectionChanged);
@@ -407,6 +411,7 @@
             this.gridOnlyIn2.Size = new System.Drawing.Size(534, 414);
             this.gridOnlyIn2.TabIndex = 73;
             this.gridOnlyIn2.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridOnlyIn2_CellClick);
+            this.gridOnlyIn2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellContentClick);
             this.gridOnlyIn2.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellDoubleClick2);
             // 
             // gridOnlyIn1
@@ -424,6 +429,7 @@
             this.gridOnlyIn1.Size = new System.Drawing.Size(534, 414);
             this.gridOnlyIn1.TabIndex = 72;
             this.gridOnlyIn1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridOnlyIn1_CellClick);
+            this.gridOnlyIn1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellContentClick);
             this.gridOnlyIn1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellDoubleClick1);
             // 
             // butRefresh

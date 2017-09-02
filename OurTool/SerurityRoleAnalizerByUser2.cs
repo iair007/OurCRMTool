@@ -492,7 +492,10 @@ namespace OurCRMTool
                         if (row != null)
                         {
                             row["UserTeamsNames"] = row["UserTeamsNames"].ToString() + ", " + u.GetAttributeValue<string>("name");
-                            row["CommingFrom"] = "User & Team";
+                            if (row["CommingFrom"].ToString().ToLower() != u.LogicalName.ToLower())
+                            {
+                                row["CommingFrom"] = "User & Team";
+                            }
                             addRole = false;
                         }
                     }

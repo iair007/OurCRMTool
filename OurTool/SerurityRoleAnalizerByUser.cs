@@ -45,7 +45,7 @@ namespace OurCRMTool
 
             CreatedtUsersColumns();
             SetBusinessUnits();
-
+            Cursor.Current = Cursors.Default;
         }
 
         private void CreatedtUsersColumns()

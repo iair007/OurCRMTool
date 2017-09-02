@@ -387,6 +387,7 @@ namespace OurCRMTool
 
         private void butUserSettingsUpdate_Click(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
             UsersSettingsUpdate usersSettingsUpdate = new UsersSettingsUpdate(bl, log);
             usersSettingsUpdate.ShowDialog();
         }
@@ -435,6 +436,7 @@ namespace OurCRMTool
 
         private void butSecurityRolesAnalizer_Click(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
             SecurityRolesAnalizer securityRolesAnalizer = new SecurityRolesAnalizer(bl, log);
             securityRolesAnalizer.ShowDialog();
         }
@@ -635,6 +637,7 @@ namespace OurCRMTool
 
         private void butCompareRecordsInEnviroments_Click(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
             CompareRecords1 form1 = new CompareRecords1(service1, service2, enviroment1Url, enviroment2Url, log);
             form1.ShowDialog(this);
         }
@@ -647,6 +650,7 @@ namespace OurCRMTool
 
         private void button2_Click(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
             SerurityRoleAnalizerByUser form = new SerurityRoleAnalizerByUser(bl, log);
             form.ShowDialog();
         }
@@ -676,6 +680,13 @@ namespace OurCRMTool
             txtSourceDom.Enabled = !chkSourceDefaultCredentials.Checked;
             txtSourceUserName.Enabled = !chkSourceDefaultCredentials.Checked;
             txtSourcePass.Enabled = !chkSourceDefaultCredentials.Checked;
+        }
+
+        private void butCompareUsersPrvAndTeam_Click(object sender, EventArgs e)
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            CompareUsersPrivAndTeam form = new CompareUsersPrivAndTeam(bl, log);
+            form.ShowDialog();
         }
     }
 }

@@ -11,6 +11,8 @@ using System.Linq;
 using Microsoft.Crm.Sdk.Messages;
 using System.Drawing;
 using System.Web.Security;
+using System.Windows.Forms;
+using System.Data;
 
 namespace OurCRMTool
 {
@@ -115,10 +117,12 @@ namespace OurCRMTool
 
             int pageNumber = 1;
             QueryExpression userQuery = new QueryExpression("systemuser");
-            userQuery.ColumnSet = new ColumnSet("fullname", "internalemailaddress", "systemuserid");
+            userQuery.ColumnSet = new ColumnSet("fullname", "internalemailaddress", "systemuserid", "businessunitid");
+            userQuery.Criteria.AddCondition(new ConditionExpression("isdisabled", ConditionOperator.Equal, false));
             userQuery.PageInfo = new PagingInfo();
             userQuery.PageInfo.PageNumber = pageNumber;
             userQuery.PageInfo.PagingCookie = null;
+            userQuery.Orders.Add(new OrderExpression("fullname", OrderType.Ascending));
 
             while (true)
             {
@@ -326,8 +330,7 @@ namespace OurCRMTool
 
             LinkEntity linkTeam = new LinkEntity("teammembership", "team", "teamid", "teamid", JoinOperator.Inner);
             linkTeam.EntityAlias = "team";
-            linkTeam.Columns = new ColumnSet("name", "teamid");
-
+            linkTeam.Columns = new ColumnSet("name", "teamid", "isdefault");
             teamQuery.LinkEntities.Add(linkTeam);
 
             return service.RetrieveMultiple(teamQuery);
@@ -646,7 +649,13 @@ namespace OurCRMTool
             return collection;
         }
 
-        public EntityCollection GetRolesByUserId(EntityReference userTeamRef)
+        /// <summary>
+        /// will get user's roles, if getParentsRoles =true, will get the name of the user role but for the hihes businessUnit
+        /// </summary>
+        /// <param name="userTeamRef"></param>
+        /// <param name="getParentsRoles"></param>
+        /// <returns></returns>
+        public EntityCollection GetRolesByUserId(EntityReference userTeamRef, bool getParentsRoles = true)
         {
             QueryExpression queryRole = new QueryExpression("role");
             //queryRole.Criteria.AddCondition(new ConditionExpression("parentroleid", ConditionOperator.Null));
@@ -660,8 +669,13 @@ namespace OurCRMTool
             queryRole.LinkEntities.Add(linkUserOrTeam);
 
             EntityCollection userRoles = service.RetrieveMultiple(queryRole);
-
-            return GetParentsRoles(userRoles);
+            if (getParentsRoles)
+            {
+                return GetParentsRoles(userRoles);
+            }
+            else {
+                return userRoles;
+            }
         }
 
         private EntityCollection GetParentsRoles(EntityCollection rolesCol)
@@ -1138,6 +1152,37 @@ namespace OurCRMTool
 
             // Execute the request
             return (RetrieveAttributeResponse)service.Execute(attributeRequest);
+        }
+
+        /// <summary>
+        /// If the row was already selected, will make it false, if it was not, will make sure is the only row selected
+        /// </summary>
+        /// <param name="grid"></param>
+        /// <param name="row"></param>
+        public void MakeOnlyOneSelection(DataGridView grid, DataGridViewRow row)
+        {
+            if ((bool)row.Cells[0].Value == true)
+            {
+                row.Cells[0].Value = false;
+            }
+            else
+            {
+                if (grid.DataSource != null)
+                {
+                    foreach (DataRow r in (grid.DataSource as DataTable).Rows)
+                    {
+                        r[0] = false;
+                    }
+                }
+                else
+                {
+                    foreach (DataGridViewRow r in grid.Rows)
+                    {
+                        r.Cells[0].Value = false;
+                    }
+                }
+                row.Cells[0].Value = true;
+            }
         }
     }
 }
