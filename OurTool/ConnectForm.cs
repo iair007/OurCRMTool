@@ -56,14 +56,12 @@ namespace OurCRMTool
                 }
                 else
                 {
+                    FileStream file = File.Create(ConnectionConfigPath);
+                    file.Close();
                     //      log.Error("Cant find file: " + ConnectionConfigPath);
                 }
                 //}
                 return _connectionConfig;
-            }
-            set {
-
-
             }
         }
 

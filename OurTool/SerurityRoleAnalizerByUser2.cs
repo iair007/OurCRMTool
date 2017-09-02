@@ -8,6 +8,7 @@ using Microsoft.Xrm.Sdk.Messages;
 using System.ComponentModel;
 using Microsoft.Xrm.Sdk.Metadata;
 using System.Collections.Generic;
+using System.IO;
 
 namespace OurCRMTool
 {
@@ -60,6 +61,12 @@ namespace OurCRMTool
             CreatedtdtEntitiesColumns(dtSystemEntities, SYSTEM);
             CreatedtdtGlobalColumns(dtGlobal, GLOBAL);
             CreatedtSelectedRowsColumns();
+
+            //set tables names, need this if user want to export to excel
+            dtRoles.TableName = "Roles";
+            dtCustomEntities.TableName = "Customer Entities";
+            dtGlobal.TableName = "Global Privileges";
+            dtSystemEntities.TableName = "System Entities";
 
             worker = new BackgroundWorker();
             worker.WorkerReportsProgress = true;
@@ -757,7 +764,8 @@ namespace OurCRMTool
                             objecttypcode = int.Parse(senderGridView.CurrentRow.Cells["ObjectTypeCode" + CUSTOM].Value.ToString());
                             entityname = senderGridView.CurrentRow.Cells["LogicName" + CUSTOM].Value.ToString();
                         }
-                        else {
+                        else
+                        {
                             objecttypcode = int.Parse(senderGridView.CurrentRow.Cells["ObjectTypeCode" + SYSTEM].Value.ToString());
                             entityname = senderGridView.CurrentRow.Cells["LogicName" + SYSTEM].Value.ToString();
                         }
@@ -775,7 +783,8 @@ namespace OurCRMTool
                                 getAllRoles = true;
                             }
                         }
-                        if (getAllRoles == true) {
+                        if (getAllRoles == true)
+                        {
                             rolesToSend.Clear();
                             foreach (DataGridViewRow r in gridRoles.Rows)
                             {
@@ -803,7 +812,8 @@ namespace OurCRMTool
             {
                 senderGridView.Cursor = Cursors.Hand;
             }
-            else {
+            else
+            {
                 senderGridView.Cursor = Cursors.Default;
             }
         }
@@ -816,7 +826,8 @@ namespace OurCRMTool
             {
                 senderGridView.Cursor = Cursors.Hand;
             }
-            else {
+            else
+            {
                 senderGridView.Cursor = Cursors.Default;
             }
         }
@@ -824,9 +835,20 @@ namespace OurCRMTool
         private void lbUser1_MouseHover(object sender, EventArgs e)
         {
             System.Windows.Forms.Label label = (sender as System.Windows.Forms.Label);
-            label.Cursor = Cursors.Hand; 
+            label.Cursor = Cursors.Hand;
         }
 
-      
+        private void butToExcel_Click(object sender, EventArgs e)
+        {
+            List<DataTable> tablesList = new List<DataTable>();
+
+            tablesList.Add(DataTableToExcel.TransforImageInDTToString(dtSystemEntities));
+            tablesList.Add(DataTableToExcel.TransforImageInDTToString(dtGlobal));
+            tablesList.Add(DataTableToExcel.TransforImageInDTToString(dtCustomEntities));
+            tablesList.Add(DataTableToExcel.TransforImageInDTToString(dtRoles));
+            string sugestedFileName = "Privilege for " + userTeamName;
+            ExcelForm excelForm = new ExcelForm(tablesList, sugestedFileName + ".xlsx", sugestedFileName, bl.GetPrivilegeChar());
+            excelForm.ShowDialog();
+        }
     }
 }

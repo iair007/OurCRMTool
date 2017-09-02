@@ -48,7 +48,9 @@ namespace OurCRMTool
             }
             url = _url;
         }
-
+        public BL()
+        {
+        }
         public string ResourcesPath
         {
             get
@@ -1063,6 +1065,21 @@ namespace OurCRMTool
                     break;
             }
             return ImgToRet;
+        }
+
+        /// <summary>
+        /// used to add char to excel when exporting something with user privilege
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string, object> GetPrivilegeChar()
+        {
+            //create excel keyChar
+            Dictionary<string, object> keyCharDic = new Dictionary<string, object>();
+            keyCharDic.Add("Organization", "Organization.gif");
+            keyCharDic.Add("Parent", "Parent.gif");
+            keyCharDic.Add("Business Unit", "BusinessUnit.gif");
+            keyCharDic.Add("User", "User.gif");
+            return keyCharDic;
         }
 
         public int GetDepthByImage(string imageTag)

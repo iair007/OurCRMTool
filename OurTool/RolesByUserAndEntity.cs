@@ -17,7 +17,6 @@ namespace OurCRMTool
         private BL bl;
         DataTable dtUsersWithPriv = new DataTable();
         DataTable dtOnlyRoles = new DataTable();
-        DataTable dtEntities = new DataTable();
         List<Guid> securityRolesCollection;
         Dictionary<int, string> _accessRigthDic = new Dictionary<int, string>();
         Dictionary<int, string> _privDepthDic = new Dictionary<int, string>();
@@ -77,6 +76,7 @@ namespace OurCRMTool
             this.Text = "Roles by User and Entity - Connected to: " + bl.url;
             label2.Text = userName + "'s roles for " + entityName;
             CreatedtOnlyRolesColumns();
+            dtOnlyRoles.TableName = "Roles for " + entityName;
             SetRoleGrid();
 
             worker = new BackgroundWorker();
@@ -234,6 +234,16 @@ namespace OurCRMTool
         private void butRefresh_Click_1(object sender, EventArgs e)
         {
             SetRoleGrid();
+        }
+
+        private void butToExcel_Click(object sender, EventArgs e)
+        {
+            List<DataTable> tablesList = new List<DataTable>();
+
+            tablesList.Add(DataTableToExcel.TransforImageInDTToString(dtOnlyRoles));
+
+            ExcelForm excelForm = new ExcelForm(tablesList, label2.Text + ".xlsx", label2.Text, bl.GetPrivilegeChar());
+            excelForm.ShowDialog();
         }
     }
 }

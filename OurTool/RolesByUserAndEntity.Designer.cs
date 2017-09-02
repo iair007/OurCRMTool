@@ -33,6 +33,7 @@
             this.gridRoles = new System.Windows.Forms.DataGridView();
             this.lbSecurityRoles = new System.Windows.Forms.Label();
             this.butRefresh = new System.Windows.Forms.Button();
+            this.butToExcel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.gridRoles)).BeginInit();
             this.SuspendLayout();
             // 
@@ -40,7 +41,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.label2.Location = new System.Drawing.Point(12, 19);
+            this.label2.Location = new System.Drawing.Point(12, 11);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(62, 17);
             this.label2.TabIndex = 25;
@@ -53,12 +54,12 @@
             this.gridRoles.AllowUserToResizeRows = false;
             this.gridRoles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridRoles.Cursor = System.Windows.Forms.Cursors.Default;
-            this.gridRoles.Location = new System.Drawing.Point(12, 39);
+            this.gridRoles.Location = new System.Drawing.Point(12, 31);
             this.gridRoles.MultiSelect = false;
             this.gridRoles.Name = "gridRoles";
             this.gridRoles.RowHeadersVisible = false;
             this.gridRoles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridRoles.Size = new System.Drawing.Size(618, 404);
+            this.gridRoles.Size = new System.Drawing.Size(618, 741);
             this.gridRoles.TabIndex = 39;
             this.gridRoles.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridRoles_CellDoubleClick);
             // 
@@ -66,7 +67,7 @@
             // 
             this.lbSecurityRoles.AutoSize = true;
             this.lbSecurityRoles.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.lbSecurityRoles.Location = new System.Drawing.Point(9, 453);
+            this.lbSecurityRoles.Location = new System.Drawing.Point(9, 789);
             this.lbSecurityRoles.Name = "lbSecurityRoles";
             this.lbSecurityRoles.Size = new System.Drawing.Size(118, 17);
             this.lbSecurityRoles.TabIndex = 43;
@@ -75,7 +76,7 @@
             // butRefresh
             // 
             this.butRefresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.butRefresh.Location = new System.Drawing.Point(518, 450);
+            this.butRefresh.Location = new System.Drawing.Point(518, 786);
             this.butRefresh.Name = "butRefresh";
             this.butRefresh.Size = new System.Drawing.Size(112, 23);
             this.butRefresh.TabIndex = 53;
@@ -83,11 +84,24 @@
             this.butRefresh.UseVisualStyleBackColor = true;
             this.butRefresh.Click += new System.EventHandler(this.butRefresh_Click_1);
             // 
+            // butToExcel
+            // 
+            this.butToExcel.BackColor = System.Drawing.Color.OliveDrab;
+            this.butToExcel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.butToExcel.Location = new System.Drawing.Point(389, 774);
+            this.butToExcel.Name = "butToExcel";
+            this.butToExcel.Size = new System.Drawing.Size(105, 39);
+            this.butToExcel.TabIndex = 84;
+            this.butToExcel.Text = "Excel";
+            this.butToExcel.UseVisualStyleBackColor = false;
+            this.butToExcel.Click += new System.EventHandler(this.butToExcel_Click);
+            // 
             // RolesByUserAndEntity
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(647, 479);
+            this.ClientSize = new System.Drawing.Size(647, 815);
+            this.Controls.Add(this.butToExcel);
             this.Controls.Add(this.butRefresh);
             this.Controls.Add(this.lbSecurityRoles);
             this.Controls.Add(this.gridRoles);
@@ -108,5 +122,6 @@
         private System.Windows.Forms.DataGridView gridRoles;
         private System.Windows.Forms.Label lbSecurityRoles;
         private System.Windows.Forms.Button butRefresh;
+        private System.Windows.Forms.Button butToExcel;
     }
 }

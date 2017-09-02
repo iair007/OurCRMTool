@@ -11,6 +11,7 @@ using System.Web.Services.Protocols;
 using System.Xml;
 using System.Security.Principal;
 using System.Data;
+using System.Security.AccessControl;
 
 namespace OurCRMTool
 {
@@ -23,8 +24,34 @@ namespace OurCRMTool
             {
                 if (_logPath == null)
                 {
-                    // string runningPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
-                    _logPath = "C:\\temp\\OurCRMToolLog2"; //runningPath + "\\Logs";
+                    bool allowEdit = false;
+                    string runningPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
+                    _logPath = runningPath + "\\Logs";
+                    var accessControlList = File.GetAccessControl(_logPath);
+                    if (accessControlList != null)
+                    {
+                        var accessRules = accessControlList.GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier));
+
+                        foreach (FileSystemAccessRule rule in accessRules)
+                        {
+                            if ((FileSystemRights.Write & rule.FileSystemRights) != FileSystemRights.Write)
+                                continue;
+                            if (rule.AccessControlType == AccessControlType.Allow)
+                            {
+                                allowEdit = true;
+                            }
+                            else if (rule.AccessControlType == AccessControlType.Deny)
+                            {
+                                allowEdit = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (!allowEdit)
+                    {
+                        _logPath = @"c:\\temp\\ourcrmtool\\Logs";
+                    }
                 }
                 return _logPath;
             }
@@ -117,9 +144,18 @@ namespace OurCRMTool
         public virtual void HandleException(Exception exception, int level, string errorDescription, params object[] args)
         {
             errorDescription += " Error: " + GetStringException(exception);
-            errorDescription += " Stack: " + exception.StackTrace;
+            errorDescription += Environment.NewLine + "------------------------------------------------------" + Environment.NewLine + " Stack: " + exception.StackTrace;
             WriteToLog(level, errorDescription, args);
             Error errorForm = new Error(errorDescription, m_LogFileName);
+            errorForm.ShowDialog();
+        }
+
+        public virtual void HandleException(Exception exception, int level, string errorDescription, string title, params object[] args)
+        {
+            errorDescription += " Error: " + GetStringException(exception);
+            errorDescription += Environment.NewLine + "------------------------------------------------------" + Environment.NewLine + " Stack: " + exception.StackTrace;
+            WriteToLog(level, errorDescription, args);
+            Error errorForm = new Error(errorDescription, m_LogFileName, title);
             errorForm.ShowDialog();
         }
 

@@ -145,6 +145,19 @@
     <Compile Include="Error.Designer.cs">
       <DependentUpon>Error.cs</DependentUpon>
     </Compile>
+    <Compile Include="ExcelForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExcelForm.designer.cs">
+      <DependentUpon>ExcelForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExcelHelper.cs" />
+    <Compile Include="LoadingForm1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoadingForm1.Designer.cs">
+      <DependentUpon>LoadingForm1.cs</DependentUpon>
+    </Compile>
     <Compile Include="RolesByUserAndEntity.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -264,6 +277,12 @@
     <EmbeddedResource Include="Error.resx">
       <DependentUpon>Error.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ExcelForm.resx">
+      <DependentUpon>ExcelForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoadingForm1.resx">
+      <DependentUpon>LoadingForm1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="RolesByUserAndEntity.resx">
       <DependentUpon>RolesByUserAndEntity.cs</DependentUpon>
     </EmbeddedResource>
@@ -341,6 +360,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="bin\Debug\Resources\loading4.gif" />
     <Content Include="DLL\Microsoft.Crm.Sdk.Proxy.dll" />
     <Content Include="DLL\Microsoft.Xrm.Sdk.dll" />
     <Content Include="DLL\Microsoft.Xrm.Tooling.Connector.dll" />
@@ -362,6 +382,35 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>8</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Excel">
+      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>9</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
