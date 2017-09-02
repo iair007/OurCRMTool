@@ -15,6 +15,16 @@ namespace OurCRMTool
 {
     public partial class ConnectForm : Form
     {
+        private static readonly ILog _log = LogManager.GetLogger(typeof(Program));
+        public ILog log
+        {
+            get
+            {
+                log4net.Config.XmlConfigurator.Configure();
+                return _log;
+            }
+        }
+
         private BL bl;
         string enviroment1Url;
         string enviroment2Url;
@@ -24,14 +34,6 @@ namespace OurCRMTool
         string[] _connectionConfig;
         LogUtils _logUtils = new LogUtils();
 
-        private static readonly ILog _log = LogManager.GetLogger(typeof(Program));
-        public ILog log
-        {
-            get
-            {
-                return _log;
-            }
-        }
 
         private string ConnectionConfigPath
         {
@@ -48,16 +50,21 @@ namespace OurCRMTool
         {
             get
             {
+                log.Debug("will checl ConnectionConfig");
                 //if (_connectionConfig == null)
                 // {
                 if (File.Exists(ConnectionConfigPath))
                 {
+                    log.Debug("pathExist");
                     _connectionConfig = File.ReadAllText(ConnectionConfigPath).Replace("\r\n", "").Split(',');
+                    log.Debug("got ConnectionConfig");
                 }
                 else
                 {
+                    log.Debug("File did not exist, so create new file");
                     FileStream file = File.Create(ConnectionConfigPath);
                     file.Close();
+                    log.Debug("File Created");
                     //      log.Error("Cant find file: " + ConnectionConfigPath);
                 }
                 //}
@@ -67,8 +74,8 @@ namespace OurCRMTool
 
         public ConnectForm()
         {
+            log.Debug("empece");
             InitializeComponent();
-            log4net.Config.XmlConfigurator.Configure();
 
             txtDom.Enabled = !chkDefaultCredentials.Checked;
             txtUserName.Enabled = !chkDefaultCredentials.Checked;
@@ -79,6 +86,7 @@ namespace OurCRMTool
             txtSourceDom.Enabled = !chkSourceDefaultCredentials.Checked;
             txtSourceUserName.Enabled = !chkSourceDefaultCredentials.Checked;
             txtSourcePass.Enabled = !chkSourceDefaultCredentials.Checked;
+            log.Debug("Enable all textbox and checkbox");
 
             if (ConnectionConfig != null)
             {

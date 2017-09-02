@@ -12,44 +12,72 @@ using System.Xml;
 using System.Security.Principal;
 using System.Data;
 using System.Security.AccessControl;
+using log4net;
 
 namespace OurCRMTool
 {
     public class LogUtils
     {
+        private static readonly ILog _log = LogManager.GetLogger(typeof(Program));
+        public static ILog log
+        {
+            get
+            {
+                log4net.Config.XmlConfigurator.Configure();
+                return _log;
+            }
+        }
         static string _logPath = null;
         public static string LogPath
         {
             get
             {
+                log.Debug("get LogPath for LogUtils");
                 if (_logPath == null)
                 {
                     bool allowEdit = false;
                     string runningPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
                     _logPath = runningPath + "\\Logs";
-                    var accessControlList = File.GetAccessControl(_logPath);
-                    if (accessControlList != null)
+                    log.Debug("runningPath: " + runningPath);
+                    try
                     {
-                        var accessRules = accessControlList.GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier));
+                        var accessControlList = File.GetAccessControl(_logPath);
 
-                        foreach (FileSystemAccessRule rule in accessRules)
+                        log.Debug("Got Access Control");
+                        if (accessControlList != null)
                         {
-                            if ((FileSystemRights.Write & rule.FileSystemRights) != FileSystemRights.Write)
-                                continue;
-                            if (rule.AccessControlType == AccessControlType.Allow)
+                            log.Debug("Got Access Control NOT NULL");
+                            var accessRules = accessControlList.GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier));
+                            log.Debug("Got AccessRules");
+                            foreach (FileSystemAccessRule rule in accessRules)
                             {
-                                allowEdit = true;
-                            }
-                            else if (rule.AccessControlType == AccessControlType.Deny)
-                            {
-                                allowEdit = true;
-                                break;
+                                if ((FileSystemRights.Write & rule.FileSystemRights) != FileSystemRights.Write)
+                                {
+                                    log.Debug("Allow Write");
+                                    continue;
+                                }
+                                if (rule.AccessControlType == AccessControlType.Allow)
+                                {
+                                    log.Debug("AccesControl Allos");
+                                    allowEdit = true;
+                                }
+                                else if (rule.AccessControlType == AccessControlType.Deny)
+                                {
+                                    log.Debug("AccesControl Deny");
+                                    allowEdit = true;
+                                    break;
+                                }
                             }
                         }
-                    }
 
-                    if (!allowEdit)
+                        if (!allowEdit)
+                        {
+                            _logPath = @"c:\\temp\\ourcrmtool\\Logs";
+                        }
+                    }
+                    catch (Exception ex)
                     {
+                        log.Debug("Error getting accessCotrnol: " + ex.Message);
                         _logPath = @"c:\\temp\\ourcrmtool\\Logs";
                     }
                 }
@@ -60,6 +88,7 @@ namespace OurCRMTool
         #region Constractor
         public LogUtils()
         {
+
             m_ApplicationLogLevel = Convert.ToInt16(ConfigurationManager.AppSettings["logLevel"]);
             string timeformat = ConfigurationManager.AppSettings["logTimeFormat"];
             string filename = LogPath + "\\log.txt";// ConfigurationManager.AppSettings["logFileName"];
