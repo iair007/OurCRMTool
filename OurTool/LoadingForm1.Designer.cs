@@ -49,9 +49,9 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::OurCRMTool.Properties.Resources.loading4;
-            this.pictureBox1.Location = new System.Drawing.Point(609, 34);
+            this.pictureBox1.Location = new System.Drawing.Point(594, 12);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(46, 42);
+            this.pictureBox1.Size = new System.Drawing.Size(99, 93);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;

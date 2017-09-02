@@ -24,8 +24,8 @@ namespace OurCRMTool
         private void setPicture()
         {
             BL bl = new BL();
-            Random rand = new Random();
-            int i = rand.Next(1, 3);
+            Random rand = new Random(DateTime.UtcNow.Millisecond);
+            int i = rand.Next(1, 7);
             string pictureName = string.Concat("loading", i, ".gif");
             Image image = bl.GetImage(pictureName);
             if (image != null)

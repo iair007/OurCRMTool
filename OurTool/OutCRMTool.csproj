@@ -366,6 +366,13 @@
     <Content Include="DLL\Microsoft.Xrm.Tooling.Connector.dll" />
     <Content Include="OurTool.ico" />
     <Content Include="Resources\ico_security_role.gif" />
+    <Content Include="Resources\loading1.gif" />
+    <Content Include="Resources\loading2.gif" />
+    <Content Include="Resources\loading3.gif" />
+    <Content Include="Resources\loading4.gif" />
+    <Content Include="Resources\loading5.gif" />
+    <Content Include="Resources\loading6.gif" />
+    <Content Include="Resources\loading7.gif" />
     <Content Include="Resources\None.gif" />
     <Content Include="Resources\Organization.gif" />
     <Content Include="Resources\Parent.gif" />
