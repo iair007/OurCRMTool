@@ -188,25 +188,15 @@ namespace OurCRMTool
                 columns.Add("-1");
                 columns.Add(id);
                 columns.Add("false");
-                foreach (string s in selectFields.Keys)
-                {
-                    if (en.Contains(s))
+                for (int i = 3; i < dtEnviroment1.Columns.Count; i++)
+                {  //start in 3 because the first 3 columns are mine, and not from the selected values
+                    if (en.Contains(dtEnviroment1.Columns[i].ColumnName))
                     {
-                        columns.Add(ConvertToString(en[s], selectFields[s]));
+                        columns.Add(ConvertToString(en[dtEnviroment1.Columns[i].ColumnName], selectFields[dtEnviroment1.Columns[i].ColumnName]));
                     }
-                }
-                foreach (string k in recordKeyList.Keys)
-                {
-                    if (en.Contains(k) && !selectFields.ContainsKey(k))
+                    else
                     {
-                        columns.Add(ConvertToString(en[k], recordKeyList[k]));
-                    }
-                }
-                foreach (string comp in compareFields.Keys)
-                {
-                    if (en.Contains(comp) && !selectFields.ContainsKey(comp) && !recordKeyList.ContainsKey(comp))  //only if this column wasnt alreay in the grid
-                    {
-                        columns.Add(ConvertToString(en[comp], compareFields[comp]));
+                        columns.Add(null);
                     }
                 }
 
@@ -248,25 +238,15 @@ namespace OurCRMTool
                 columns.Add("-1");
                 columns.Add(id);
                 columns.Add("false");
-                foreach (string s in selectFields.Keys)
-                {
-                    if (en.Contains(s))
+                for (int i = 3; i < dtEnviroment2.Columns.Count; i++)
+                {  //start in 3 because the first 3 columns are mine, and not from the selected values
+                    if (en.Contains(dtEnviroment2.Columns[i].ColumnName))
                     {
-                        columns.Add(ConvertToString(en[s], selectFields[s]));
+                        columns.Add(ConvertToString(en[dtEnviroment2.Columns[i].ColumnName], selectFields[dtEnviroment2.Columns[i].ColumnName]));
                     }
-                }
-                foreach (string k in recordKeyList.Keys)
-                {
-                    if (en.Contains(k) && !selectFields.ContainsKey(k))
+                    else
                     {
-                        columns.Add(ConvertToString(en[k], recordKeyList[k]));
-                    }
-                }
-                foreach (string comp in compareFields.Keys)
-                {
-                    if (en.Contains(comp) && !selectFields.ContainsKey(comp) && !recordKeyList.ContainsKey(comp))  //only if this column wasnt alreay in the grid
-                    {
-                        columns.Add(ConvertToString(en[comp], compareFields[comp]));
+                        columns.Add(null);
                     }
                 }
 
