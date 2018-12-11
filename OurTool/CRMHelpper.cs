@@ -106,6 +106,8 @@ namespace OurCRMTool
                 credentials.UserName.UserName = UserName;
                 credentials.UserName.Password = Password;
                 Uri serviceUri = new Uri(SoapOrgServiceUri);
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
                 OrganizationServiceProxy proxy = new OrganizationServiceProxy(serviceUri, null, credentials, null);
                 proxy.EnableProxyTypes();
                 IOrganizationService service = (IOrganizationService)proxy;
