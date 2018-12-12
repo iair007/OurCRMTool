@@ -109,6 +109,7 @@ namespace OurCRMTool
                 if (isOnline != string.Empty && isOnline != "false")
                 {
                     chkOnline.Checked = true;
+                    txtDom.Enabled = false;
                 }
                 string userDefaultCredentials = GetConfigParameter("UserDefaultCredentials").ToLower();
                 if (userDefaultCredentials != string.Empty && userDefaultCredentials != "false")
